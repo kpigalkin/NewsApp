@@ -1,7 +1,7 @@
 import UIKit
 
 protocol NewsDisplayLogic: AnyObject {
-    func displayNews(viewModel: News.Load.ViewModel)
+    func displayNews(viewModel: News.Latest.ViewModel)
 }
 
 protocol NewsViewEvents: AnyObject {
@@ -26,8 +26,8 @@ final class NewsViewController: UIViewController {
 
 private extension NewsViewController {
     func doSomething() {
-        let request = News.Load.Request()
-        interactor?.doSomething(request: request)
+        let request = News.Latest.Request()
+        interactor?.getLatestNews(request: request)
     }
 }
 
@@ -39,7 +39,7 @@ extension NewsViewController: NewsViewEvents {
 }
 
 extension NewsViewController: NewsDisplayLogic {
-    func displayNews(viewModel: News.Load.ViewModel) {
+    func displayNews(viewModel: News.Latest.ViewModel) {
         newsView.displayNews(viewModel: viewModel)
     }
 }

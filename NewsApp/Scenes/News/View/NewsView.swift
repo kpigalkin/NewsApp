@@ -38,10 +38,7 @@ final class NewsView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
-
-extension NewsView: UICollectionViewDelegate {}
 
 private extension NewsView {
     func makeDataSource() -> DiffableDataSource {
@@ -78,9 +75,11 @@ private extension NewsView {
 }
 
 extension NewsView: NewsDisplayLogic {
-    func displayNews(viewModel: News.Load.ViewModel) {
+    func displayNews(viewModel: News.Latest.ViewModel) {
         var snapshot = dataSource.snapshot()
-        snapshot.appendItems(viewModel.results)
+        snapshot.appendItems(viewModel.newsItems, toSection: .news)
         dataSource.apply(snapshot)
     }
 }
+
+extension NewsView: UICollectionViewDelegate {}

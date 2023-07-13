@@ -1,14 +1,13 @@
 import UIKit
 
 enum News {
-    enum Load {
-        struct Request {
-        }
+    enum Latest {
+        struct Request {}
         struct Response: Decodable {
             let results: [NewsItem]
         }
         struct ViewModel {
-            let results: [NewsCollectionItem]
+            let newsItems: [NewsCollectionItem]
         }
     }
 }

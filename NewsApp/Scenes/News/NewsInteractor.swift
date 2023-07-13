@@ -1,7 +1,7 @@
 import UIKit
 
 protocol NewsBusinessLogic {
-    func doSomething(request: News.Load.Request)
+    func getLatestNews(request: News.Latest.Request)
 }
 
 protocol NewsDataStore {
@@ -15,13 +15,14 @@ protocol NewsDataStore {
 
 
 
-
-
+enum CustomError: Error {
+    case URLError
+}
 
 final class NewsInteractor: NewsDataStore {
     var presenter: NewsPresentationLogic?
     
-    private lazy var components: URLComponents = {
+    private var components: URLComponents = {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.spaceflightnewsapi.net"
@@ -29,19 +30,15 @@ final class NewsInteractor: NewsDataStore {
         return components
     }()
     
-    
-    enum CustomError: Error {
-        case URLError
-    }
 }
 
 extension NewsInteractor: NewsBusinessLogic {
     @MainActor
-    func doSomething(request: News.Load.Request) {
+    func getLatestNews(request: News.Latest.Request) {
         Task(priority: .userInitiated) {
             do {
                 let response = try await getNews()
-                presenter?.presentSomething(response: response)
+                presenter?.presentLatestNews(response: response)
             } catch {
                 print(error.localizedDescription)
             }
@@ -50,10 +47,10 @@ extension NewsInteractor: NewsBusinessLogic {
 }
 
 private extension NewsInteractor {
-    func getNews() async throws -> News.Load.Response {
+    func getNews() async throws -> News.Latest.Response {
         guard let url = components.url else { throw  CustomError.URLError }
         let (data, _) = try await URLSession.shared.data(from: url)        
-        let decodedData = try JSONDecoder().decode(News.Load.Response.self, from: data)
+        let decodedData = try JSONDecoder().decode(News.Latest.Response.self, from: data)
         return decodedData
     }
 }

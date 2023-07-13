@@ -1,20 +1,20 @@
 import UIKit
 
 protocol NewsPresentationLogic {
-    func presentSomething(response: News.Load.Response)
+    func presentLatestNews(response: News.Latest.Response)
 }
 
 final class NewsPresenter: NewsPresentationLogic {
     weak var viewController: NewsDisplayLogic?
     
-    func presentSomething(response: News.Load.Response) {
-        let viewModel = News.Load.ViewModel(results:
+    func presentLatestNews(response: News.Latest.Response) {
+        let viewModel = News.Latest.ViewModel(newsItems:
             response.results.map {
-                NewsCollectionItem(content: .news(configuration: .init(
+            NewsCollectionItem(content: .news(configuration: .init(
                             id: $0.id,
-                            title: $0.title,
                             url: $0.url,
-                            imageURL: $0.url,
+                            imageURL: URL(string: $0.imageURL),
+                            title: $0.title,
                             summary: $0.summary,
                             date: $0.publishedAt
                         )))
