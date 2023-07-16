@@ -1,16 +1,16 @@
 import UIKit
 
-@objc protocol NewsRoutingLogic {
+protocol NewsDetailsRoutingLogic {
     //func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
-protocol NewsDataPassing {
-    var dataStore: NewsDataStore? { get }
+protocol NewsDetailsDataPassing {
+    var dataStore: NewsDetailDataStore? { get }
 }
 
-class NewsRouter: NewsRoutingLogic, NewsDataPassing {
-    weak var viewController: NewsViewController?
-    var dataStore: NewsDataStore?
+final class NewsDetailsRouter: NewsDetailsRoutingLogic, NewsDetailsDataPassing {
+    weak var viewController: NewsDetailViewController?
+    var dataStore: NewsDetailDataStore?
     
     // MARK: Routing
     
@@ -31,14 +31,14 @@ class NewsRouter: NewsRoutingLogic, NewsDataPassing {
     
     // MARK: Navigation
     
-    //func navigateToSomewhere(source: NewsViewController, destination: SomewhereViewController)
+    //func navigateToSomewhere(source: NewsDetailsViewController, destination: SomewhereViewController)
     //{
     //  source.show(destination, sender: nil)
     //}
     
     // MARK: Passing data
     
-    //func passDataToSomewhere(source: NewsDataStore, destination: inout SomewhereDataStore)
+    //func passDataToSomewhere(source: NewsDetailsDataStore, destination: inout SomewhereDataStore)
     //{
     //  destination.name = source.name
     //}

@@ -1,8 +1,8 @@
 import UIKit
 
-struct NewsCollectionViewLayoutFactory {
+struct NewsListCollectionViewLayoutFactory {
     private enum Constants {
-        static let estimatedHeight: CGFloat = 400
+        static let estimatedHeight: CGFloat = 500
         static let groupSpacing: CGFloat = 30
         static let spacing: CGFloat = 10
     }
@@ -10,7 +10,7 @@ struct NewsCollectionViewLayoutFactory {
     static func newsFeedLayout() -> UICollectionViewCompositionalLayout {
 
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
-            guard let _ = SectionType.init(rawValue: sectionIndex) else {
+            guard let _ = NewsListSection.init(rawValue: sectionIndex) else {
                 fatalError("Section layout is not implemented :(")
             }
             return self.createNewsSectionLayout()
@@ -19,8 +19,7 @@ struct NewsCollectionViewLayoutFactory {
     }
 }
 
-extension NewsCollectionViewLayoutFactory {
-
+extension NewsListCollectionViewLayoutFactory {
     static func createNewsSectionLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),

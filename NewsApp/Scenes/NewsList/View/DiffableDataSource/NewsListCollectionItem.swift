@@ -1,6 +1,6 @@
 import UIKit
 
-struct NewsCollectionItem {
+struct NewsListCollectionItem {
     let uuid = UUID()
     let content: ItemType
     
@@ -9,12 +9,12 @@ struct NewsCollectionItem {
     }
 }
 
-extension NewsCollectionItem: Hashable {
+extension NewsListCollectionItem: Hashable {
     enum ItemType {
-        case news(configuration: NewsContentConfiguration)
+        case news(configuration: NewsListContentConfiguration)
     }
     
-    static func == (lhs: NewsCollectionItem, rhs: NewsCollectionItem) -> Bool {
+    static func == (lhs: NewsListCollectionItem, rhs: NewsListCollectionItem) -> Bool {
         lhs.uuid == rhs.uuid
     }
     

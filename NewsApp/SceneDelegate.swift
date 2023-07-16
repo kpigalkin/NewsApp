@@ -1,13 +1,14 @@
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    private var newsListBuilder: NewsListBuildable!
     var window: UIWindow?
-    private var newsConfigurator = NewsConfigurator()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
+        newsListBuilder = NewsListBuilder()
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = NewsConfigurator.configure()
+        window?.rootViewController = newsListBuilder.build()
         window?.makeKeyAndVisible()
     }
 }

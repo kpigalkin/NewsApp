@@ -1,21 +1,23 @@
-
-
-protocol APIConstantsType {
-    var scheme: String { get }
-    var host: String { get }
-    var path: String { get }
-}
-
-struct SpaceFlightNewsAPI: APIConstantsType {
-    var scheme: String {
+struct SpaceFlightNewsAPI {
+    static var scheme: String {
         "https"
     }
 
-    var host: String {
+    static var host: String {
         "api.spaceflightnewsapi.net"
     }
     
-    var path: String {
+    static var path: String {
         "/v4/articles"
     }
+    
+    static var dateFormats: [String] {
+        [
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ",
+            "yyyy-MM-dd'T'HH:mm:ssZ"
+        ]
+    }
+}
+enum CustomError: Error {
+    case URLError
 }
