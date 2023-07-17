@@ -22,7 +22,7 @@ extension NewsListPresenter: NewsPresentationLogic {
                             summary: $0.summary,
                             date: DateFormatter().convertMultipleFormatDate(
                                 formats: SpaceFlightNewsAPI.dateFormats,
-                                from: $0.publishedAt,
+                                from: $0.date,
                                 toFormat: toDateFormat
                             )
                         )))

@@ -4,7 +4,7 @@ enum NewsDetail {
     enum ShowElement {
         struct Request {}
         struct Response {
-            let element: NewsListItem
+            let element: NewsModel
         }
         struct ViewModel {
             let id: Int

@@ -5,12 +5,12 @@ protocol NewsDetailBusinessLogic {
 }
 
 protocol NewsDetailDataStore {
-    var newsElement: NewsListItem? { get set }
+    var newsElement: NewsModel? { get set }
 }
 
 final class NewsDetailInteractor: NewsDetailDataStore {
     var presenter: NewsDetailPresentationLogic?
-    var newsElement: NewsListItem?
+    var newsElement: NewsModel?
 }
 
 extension NewsDetailInteractor: NewsDetailBusinessLogic {

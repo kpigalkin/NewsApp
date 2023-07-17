@@ -22,7 +22,7 @@ struct NewsListCollectionViewLayoutFactory {
 extension NewsListCollectionViewLayoutFactory {
     static func createNewsSectionLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
+            widthDimension: .fractionalWidth(0.5),
             heightDimension: .estimated(Constants.estimatedHeight)
         )
         let groupSize = NSCollectionLayoutSize(
@@ -31,7 +31,7 @@ extension NewsListCollectionViewLayoutFactory {
         )
 
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.accessibilityScroll(.down)

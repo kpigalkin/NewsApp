@@ -6,13 +6,14 @@ protocol NewsListBusinessLogic {
 }
 
 protocol NewsListDataStore {
-     var newsElement: NewsListItem? { get set }
+     var newsElement: NewsModel? { get set }
 }
 
 final class NewsListInteractor: NewsListDataStore {
-    private var storage = [NewsListItem]()
+    private var storage = [NewsModel]()
+    
     var presenter: NewsPresentationLogic?
-    var newsElement: NewsListItem?
+    var newsElement: NewsModel?
     
     private var components: URLComponents = {
         var components = URLComponents()
@@ -21,6 +22,12 @@ final class NewsListInteractor: NewsListDataStore {
         components.path = "/v4/articles"
         return components
     }()
+    
+    var databaseService: DataBaseService?
+    
+    init(databaseService: DataBaseService?) {
+        self.databaseService = databaseService
+    }
 }
 
 extension NewsListInteractor: NewsListBusinessLogic {
@@ -29,18 +36,24 @@ extension NewsListInteractor: NewsListBusinessLogic {
         Task(priority: .userInitiated) {
             do {
                 let response = try await getNews()
-                storage = response.results
+                databaseService?.save(news: response.results)
                 presenter?.presentNews(response: response)
             } catch {
                 // FIXME: Catch errors
                 print(error.localizedDescription)
+                
+                guard let data = databaseService?.get(.all) else { return }
+                let response = NewsListModels.Show.Response(results: data)
+                presenter?.presentNews(response: response)
             }
         }
     }
     
     func selectNewsElement(request: NewsListModels.SelectElement.Request) {
-        guard storage.indices.contains(request.index) else { return }
-        newsElement = storage[request.index]
+        guard let selectedNewsItem = databaseService?.get(.id(identifier: request.index))?.first else {
+            return
+        }
+        newsElement = selectedNewsItem
     }
 }
 

@@ -8,7 +8,7 @@ protocol NewsListBuildable {
 struct NewsListBuilder: NewsListBuildable {
     func build() -> UIViewController {
         let viewController = NewsListViewController()
-        let interactor = NewsListInteractor()
+        let interactor = NewsListInteractor(databaseService: RealmService())
         let presenter = NewsListPresenter()
         let router = NewsListRouter()
         viewController.interactor = interactor

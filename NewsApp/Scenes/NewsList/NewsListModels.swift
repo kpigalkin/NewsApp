@@ -4,7 +4,7 @@ enum NewsListModels {
     enum Show {
         struct Request {}
         struct Response: Decodable {
-            let results: [NewsListItem]
+            let results: [NewsModel]
         }
         struct ViewModel {
             let newsItems: [NewsListCollectionItem]

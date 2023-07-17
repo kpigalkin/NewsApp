@@ -62,8 +62,8 @@ extension NewsListViewController: NewsListDisplayLogic {
         interactor?.fetchNews(request: .init())
     }
     
-    private func requestToSelectNewsElement(by indexPath: IndexPath) {
-        interactor?.selectNewsElement(request: .init(index: indexPath.row))
+    private func requestToSelectNewsElement(by id: Int) {
+        interactor?.selectNewsElement(request: .init(index: id))
     }
     
     // MARK: - Route
@@ -77,7 +77,11 @@ extension NewsListViewController: NewsListDisplayLogic {
 
 extension NewsListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        requestToSelectNewsElement(by: indexPath)
+        let cell = collectionView.cellForItem(at: indexPath)
+        guard let config = cell?.contentConfiguration as? NewsListContentConfiguration else {
+            return
+        }
+        requestToSelectNewsElement(by: config.id)
         routeToNewsDetail() 
     }
 }
