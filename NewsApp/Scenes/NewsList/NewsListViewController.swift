@@ -18,7 +18,8 @@ final class NewsListViewController: UIViewController {
         cell.contentConfiguration = nil
         cell.contentConfiguration = configuration
     }
-        
+    
+    private lazy var dataSource = makeDataSource()
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(
             frame: .zero,
@@ -30,19 +31,34 @@ final class NewsListViewController: UIViewController {
         )
         view.delegate = self
         view.prefetchDataSource = self
-        view.backgroundColor = .darkGray
+        view.alwaysBounceVertical = true
+        view.backgroundColor = .clear
         return view
     }()
     
-    private lazy var dataSource = makeDataSource()
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.tintColor = .white
+        control.addAction(
+            UIAction(handler: { [weak self] _ in
+                guard let self else { return }
+                self.requestToFetchNews(offset: .zero)
+            }),
+            for: .valueChanged
+        )
+        control.attributedTitle = NSMutableAttributedString(string: "Updating")
+        return control
+    }()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .darkGray
         createSections()
         addSubviews()
         configureConstraints()
+        refreshControl.beginRefreshing()
         requestToFetchNews(offset: .zero)
     }
 }
@@ -59,6 +75,8 @@ extension NewsListViewController: NewsListDisplayLogic {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(viewModel.news, toSection: .newsList)
         dataSource.apply(snapshot)
+        
+        refreshControl.endRefreshing()
     }
     
     private func throwAlert(title: String?, message: String?) {
@@ -133,11 +151,14 @@ private extension NewsListViewController {
         dataSource.apply(snapshot)
     }
     
-    // MARK: - Constraints
+    // MARK: - Subviews
     
     func addSubviews() {
         view.addSubview(collectionView)
+        collectionView.refreshControl = refreshControl
     }
+    
+    // MARK: - Constraints
     
     func configureConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
