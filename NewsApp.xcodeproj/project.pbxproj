@@ -37,6 +37,7 @@
 		DBD1038F2A657EFF00077781 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DBD1038E2A657EFF00077781 /* RealmSwift */; };
 		DBD103922A65A99000077781 /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD103912A65A99000077781 /* RequestError.swift */; };
 		DBD103962A65BDFE00077781 /* NewsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD103952A65BDFE00077781 /* NewsListModel.swift */; };
+		DBD103982A65CB0D00077781 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD103972A65CB0D00077781 /* NetworkWorker.swift */; };
 		DBEDF3062A614C2100F71DAC /* NewsListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEDF3052A614C2100F71DAC /* NewsListSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		DBD103872A655A6E00077781 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		DBD103912A65A99000077781 /* RequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
 		DBD103952A65BDFE00077781 /* NewsListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListModel.swift; sourceTree = "<group>"; };
+		DBD103972A65CB0D00077781 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		DBEDF3052A614C2100F71DAC /* NewsListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +131,7 @@
 		DBAB50822A5DE3C700DE6866 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				DBD103972A65CB0D00077781 /* NetworkWorker.swift */,
 				DBAB50BB2A60563E00DE6866 /* NewsDetail */,
 				DBAB50832A5DE3CE00DE6866 /* NewsList */,
 			);
@@ -361,6 +364,7 @@
 				DBEDF3062A614C2100F71DAC /* NewsListSection.swift in Sources */,
 				DB4E3B1F2A61FAB2008D0CA3 /* UILabel+Extension.swift in Sources */,
 				DBAB508E2A5DE3FC00DE6866 /* NewsListViewController.swift in Sources */,
+				DBD103982A65CB0D00077781 /* NetworkWorker.swift in Sources */,
 				DBAB50A42A5EAF8300DE6866 /* NewsListCollectionItem.swift in Sources */,
 				DBD103962A65BDFE00077781 /* NewsListModel.swift in Sources */,
 				DBD103882A655A6E00077781 /* RealmService.swift in Sources */,

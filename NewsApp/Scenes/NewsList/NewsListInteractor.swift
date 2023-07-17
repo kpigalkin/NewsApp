@@ -13,12 +13,9 @@ final class NewsListInteractor: NewsListDataStore {
     private var storage = [NewsModel]()
     
     var presenter: NewsPresentationLogic?
-    var newsElement: NewsModel?
+    var networkWorker: NetworkWorkingLogic?
     var databaseService: DataBaseService?
-    
-    init(databaseService: DataBaseService?) {
-        self.databaseService = databaseService
-    }
+    var newsElement: NewsModel?
 }
 
 extension NewsListInteractor: NewsListBusinessLogic {
@@ -26,10 +23,10 @@ extension NewsListInteractor: NewsListBusinessLogic {
     func fetchNews(request: NewsListModels.ShowNews.Request) {
         Task(priority: .userInitiated) { @MainActor in
             do {
-                let news = try await self.request(
+                guard let news = try await networkWorker?.request(
                     endPoint: SNAPIEndPoint.getNews(offset: request.offset),
                     model: NewsListModel.self
-                )
+                ) else { return }
                 databaseService?.save(news: news.results)
                 let response = NewsListModels.ShowNews.Response(news: news, error: nil)
                 presenter?.presentNews(response: response)
@@ -51,43 +48,3 @@ extension NewsListInteractor: NewsListBusinessLogic {
         newsElement = selectedNewsItem
     }
 }
-
-    // FIXME: Should be Worker or NetworkService
-
-private extension NewsListInteractor {
-    func request<T: Decodable>(endPoint: EndPoint, model: T.Type) async throws -> T {
-        var components = URLComponents()
-        components.scheme = endPoint.scheme
-        components.host = endPoint.host
-        components.path = endPoint.path
-        components.queryItems = endPoint.parameters
-
-        guard let url = components.url else {
-            throw RequestError.invalidURL
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = endPoint.method
-        
-        do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            
-            guard let response = response as? HTTPURLResponse else {
-                throw RequestError.noResponse
-            }
-            
-            switch response.statusCode {
-            case 200...299:
-                guard let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
-                    throw RequestError.decode
-                }
-                return decodedData
-            default:
-                throw RequestError.unknown
-            }
-        } catch URLError.Code.notConnectedToInternet {
-            throw RequestError.offline
-        }
-    }
-}
-
