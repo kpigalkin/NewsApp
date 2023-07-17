@@ -2,7 +2,9 @@ import UIKit
 
 enum NewsListModels {
     enum Show {
-        struct Request {}
+        struct Request {
+            let offset: Int
+        }
         struct Response: Decodable {
             let results: [NewsModel]
         }

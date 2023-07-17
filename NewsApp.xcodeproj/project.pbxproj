@@ -22,7 +22,7 @@
 		DBAB50A12A5EAC2000DE6866 /* NewsListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB50A02A5EAC2000DE6866 /* NewsListContentView.swift */; };
 		DBAB50A42A5EAF8300DE6866 /* NewsListCollectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB50A32A5EAF8300DE6866 /* NewsListCollectionItem.swift */; };
 		DBAB50A62A5EC0F200DE6866 /* NewsListCollectionViewLayoutFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB50A52A5EC0F200DE6866 /* NewsListCollectionViewLayoutFactory.swift */; };
-		DBAB50AE2A5F669800DE6866 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB50AD2A5F669800DE6866 /* APIConstants.swift */; };
+		DBAB50AE2A5F669800DE6866 /* SpaceFlightNewsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB50AD2A5F669800DE6866 /* SpaceFlightNewsAPI.swift */; };
 		DBAB50B52A600A2F00DE6866 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DBAB50B42A600A2F00DE6866 /* Kingfisher */; };
 		DBAB50C42A6056B800DE6866 /* NewsDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB50BE2A6056B800DE6866 /* NewsDetailPresenter.swift */; };
 		DBAB50C62A6056B800DE6866 /* NewsDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB50C02A6056B800DE6866 /* NewsDetailRouter.swift */; };
@@ -35,6 +35,7 @@
 		DBD103882A655A6E00077781 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD103872A655A6E00077781 /* RealmService.swift */; };
 		DBD1038D2A657EFF00077781 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DBD1038C2A657EFF00077781 /* Realm */; };
 		DBD1038F2A657EFF00077781 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DBD1038E2A657EFF00077781 /* RealmSwift */; };
+		DBD103922A65A99000077781 /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD103912A65A99000077781 /* RequestError.swift */; };
 		DBEDF3062A614C2100F71DAC /* NewsListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEDF3052A614C2100F71DAC /* NewsListSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,7 +57,7 @@
 		DBAB50A02A5EAC2000DE6866 /* NewsListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListContentView.swift; sourceTree = "<group>"; };
 		DBAB50A32A5EAF8300DE6866 /* NewsListCollectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListCollectionItem.swift; sourceTree = "<group>"; };
 		DBAB50A52A5EC0F200DE6866 /* NewsListCollectionViewLayoutFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListCollectionViewLayoutFactory.swift; sourceTree = "<group>"; };
-		DBAB50AD2A5F669800DE6866 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		DBAB50AD2A5F669800DE6866 /* SpaceFlightNewsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceFlightNewsAPI.swift; sourceTree = "<group>"; };
 		DBAB50BE2A6056B800DE6866 /* NewsDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailPresenter.swift; sourceTree = "<group>"; };
 		DBAB50C02A6056B800DE6866 /* NewsDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailRouter.swift; sourceTree = "<group>"; };
 		DBAB50C12A6056B800DE6866 /* NewsDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailModels.swift; sourceTree = "<group>"; };
@@ -66,6 +67,7 @@
 		DBD1037A2A64B62F00077781 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		DBD103852A6558ED00077781 /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		DBD103872A655A6E00077781 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
+		DBD103912A65A99000077781 /* RequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
 		DBEDF3052A614C2100F71DAC /* NewsListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,13 +156,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		DBAB50972A5E125B00DE6866 /* Constants */ = {
+		DBAB50972A5E125B00DE6866 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				DBAB50AD2A5F669800DE6866 /* APIConstants.swift */,
+				DBAB50AD2A5F669800DE6866 /* SpaceFlightNewsAPI.swift */,
 				DB4E3B212A62091A008D0CA3 /* LayoutConstants.swift */,
+				DBD103912A65A99000077781 /* RequestError.swift */,
 			);
-			path = Constants;
+			path = API;
 			sourceTree = "<group>";
 		};
 		DBAB509F2A5EABFA00DE6866 /* View */ = {
@@ -176,7 +179,7 @@
 		DBAB50AF2A60012A00DE6866 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				DBAB50972A5E125B00DE6866 /* Constants */,
+				DBAB50972A5E125B00DE6866 /* API */,
 				DBAB50962A5DF0F900DE6866 /* Extensions */,
 			);
 			path = Utilities;
@@ -327,8 +330,9 @@
 				DBAB50C82A6056B800DE6866 /* NewsDetailViewController.swift in Sources */,
 				DBAB508F2A5DE3FC00DE6866 /* NewsListInteractor.swift in Sources */,
 				DBAB50C62A6056B800DE6866 /* NewsDetailRouter.swift in Sources */,
+				DBD103922A65A99000077781 /* RequestError.swift in Sources */,
 				DBAB50702A5DD4B600DE6866 /* SceneDelegate.swift in Sources */,
-				DBAB50AE2A5F669800DE6866 /* APIConstants.swift in Sources */,
+				DBAB50AE2A5F669800DE6866 /* SpaceFlightNewsAPI.swift in Sources */,
 				DBAB50952A5DE65700DE6866 /* NewsListBuilder.swift in Sources */,
 				DBAB50C92A6056B800DE6866 /* NewsDetailInteractor.swift in Sources */,
 				DBAB508A2A5DE3FC00DE6866 /* NewsListPresenter.swift in Sources */,

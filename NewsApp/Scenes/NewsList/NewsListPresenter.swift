@@ -21,7 +21,7 @@ extension NewsListPresenter: NewsPresentationLogic {
                             title: $0.title,
                             summary: $0.summary,
                             date: DateFormatter().convertMultipleFormatDate(
-                                formats: SpaceFlightNewsAPI.dateFormats,
+                                formats: SpaceFlightEndPoint.dateFormats,
                                 from: $0.date,
                                 toFormat: toDateFormat
                             )

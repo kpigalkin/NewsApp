@@ -19,7 +19,7 @@ extension NewsDetailPresenter: NewsDetailPresentationLogic {
             title: response.element.title,
             summary: response.element.summary,
             publishDate: DateFormatter().convertMultipleFormatDate(
-                formats: SpaceFlightNewsAPI.dateFormats,
+                formats: SpaceFlightEndPoint.dateFormats,
                 from: response.element.date,
                 toFormat: toDateFormat
             )

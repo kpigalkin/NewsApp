@@ -29,6 +29,7 @@ final class NewsListViewController: UIViewController {
             forCellWithReuseIdentifier: NewsListViewController.cellReuseIdentifier
         )
         view.delegate = self
+        view.prefetchDataSource = self
         view.backgroundColor = .darkGray
         return view
     }()
@@ -42,7 +43,7 @@ final class NewsListViewController: UIViewController {
         createSections()
         addSubviews()
         configureConstraints()
-        requestToFetchNews()
+        requestToFetchNews(offset: .zero)
     }
 }
 
@@ -58,8 +59,8 @@ extension NewsListViewController: NewsListDisplayLogic {
     
     // MARK: - Request
     
-    private func requestToFetchNews() {
-        interactor?.fetchNews(request: .init())
+    private func requestToFetchNews(offset: Int) {
+        interactor?.fetchNews(request: .init(offset: offset))
     }
     
     private func requestToSelectNewsElement(by id: Int) {
@@ -83,6 +84,16 @@ extension NewsListViewController: UICollectionViewDelegate {
         }
         requestToSelectNewsElement(by: config.id)
         routeToNewsDetail() 
+    }
+}
+
+    // MARK: UICollectionViewDataSourcePrefetching
+
+extension NewsListViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let itemsCount = dataSource.snapshot().numberOfItems
+        guard indexPaths.last?.item == itemsCount - 1 else { return }
+        requestToFetchNews(offset: itemsCount)
     }
 }
 

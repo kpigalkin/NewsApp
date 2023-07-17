@@ -8,7 +8,7 @@ enum DataBaseParams {
 
 protocol DataBaseService {
     func save(news: [NewsModel])
-    func get(_ parameter: DataBaseParams) -> [NewsModel]?
+    func get(params: DataBaseParams) -> [NewsModel]?
 }
 
 final class RealmService {
@@ -24,8 +24,8 @@ extension RealmService: DataBaseService {
         }
     }
     
-    func get(_ parameter: DataBaseParams) -> [NewsModel]? {
-        switch parameter {
+    func get(params: DataBaseParams) -> [NewsModel]? {
+        switch params {
         case .all:
             return Array(mainRealm.objects(NewsModel.self))
         case .id(let identifier):
