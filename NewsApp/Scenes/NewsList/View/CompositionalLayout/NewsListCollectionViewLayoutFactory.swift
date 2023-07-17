@@ -3,8 +3,8 @@ import UIKit
 struct NewsListCollectionViewLayoutFactory {
     private enum Constants {
         static let estimatedHeight: CGFloat = 500
-        static let groupSpacing: CGFloat = 30
-        static let spacing: CGFloat = 10
+        static let groupSpacing: CGFloat = 16
+        static let spacing: CGFloat = 8
     }
 
     static func newsFeedLayout() -> UICollectionViewCompositionalLayout {
