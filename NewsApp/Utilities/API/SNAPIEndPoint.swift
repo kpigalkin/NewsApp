@@ -9,7 +9,7 @@ protocol EndPoint {
     static var dateFormats: [String] { get }
 }
 
-enum SpaceFlightEndPoint: EndPoint {
+enum SNAPIEndPoint: EndPoint {
     case getNews(offset: Int)
     
     var method: String {
@@ -44,7 +44,8 @@ enum SpaceFlightEndPoint: EndPoint {
         switch self {
         case .getNews(offset: let offset):
             return [
-                URLQueryItem(name: "offset", value: "\(offset)")
+                URLQueryItem(name: "offset", value: "\(offset)"),
+                URLQueryItem(name: "limit", value: "\(10)")
             ]
         }
     }

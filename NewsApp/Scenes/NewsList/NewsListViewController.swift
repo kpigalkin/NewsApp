@@ -1,7 +1,7 @@
 import UIKit
 
 protocol NewsListDisplayLogic: AnyObject {
-    func displayNews(viewModel: NewsListModels.Show.ViewModel)
+    func displayNews(viewModel: NewsListModels.ShowNews.ViewModel)
 }
 
 final class NewsListViewController: UIViewController {
@@ -51,10 +51,20 @@ extension NewsListViewController: NewsListDisplayLogic {
     
     // MARK: - Display
     
-    func displayNews(viewModel: NewsListModels.Show.ViewModel) {
+    func displayNews(viewModel: NewsListModels.ShowNews.ViewModel) {
+        if !viewModel.success {
+            throwAlert(title: viewModel.errorTitle, message: viewModel.errorMessage)
+        }
+        
         var snapshot = dataSource.snapshot()
-        snapshot.appendItems(viewModel.newsItems, toSection: .newsList)
+        snapshot.appendItems(viewModel.news, toSection: .newsList)
         dataSource.apply(snapshot)
+    }
+    
+    private func throwAlert(title: String?, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Got it", style: .cancel))
+        present(alert, animated: true)
     }
     
     // MARK: - Request

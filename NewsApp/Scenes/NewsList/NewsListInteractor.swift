@@ -1,7 +1,7 @@
 import UIKit
 
 protocol NewsListBusinessLogic {
-    func fetchNews(request: NewsListModels.Show.Request)
+    func fetchNews(request: NewsListModels.ShowNews.Request)
     func selectNewsElement(request: NewsListModels.SelectElement.Request)
 }
 
@@ -23,21 +23,22 @@ final class NewsListInteractor: NewsListDataStore {
 
 extension NewsListInteractor: NewsListBusinessLogic {
     
-    @MainActor func fetchNews(request: NewsListModels.Show.Request) {
-        Task(priority: .userInitiated) {
+    func fetchNews(request: NewsListModels.ShowNews.Request) {
+        Task(priority: .userInitiated) { @MainActor in
             do {
-                let response = try await self.request(
-                    endPoint: SpaceFlightEndPoint.getNews(offset: request.offset),
-                    model: NewsListModels.Show.Response.self
+                let news = try await self.request(
+                    endPoint: SNAPIEndPoint.getNews(offset: request.offset),
+                    model: NewsListModel.self
                 )
-                databaseService?.save(news: response.results)
+                databaseService?.save(news: news.results)
+                let response = NewsListModels.ShowNews.Response(news: news, error: nil)
                 presenter?.presentNews(response: response)
-            } catch {
-                // FIXME: Catch errors
-//                print(error.localizedDescription)
                 
+            } catch RequestError.offline {
+
                 guard let data = databaseService?.get(params: .all) else { return }
-                let response = NewsListModels.Show.Response(results: data)
+                let news = NewsListModel(results: data)
+                let response = NewsListModels.ShowNews.Response(news: news, error: .offline)
                 presenter?.presentNews(response: response)
             }
         }
@@ -61,10 +62,32 @@ private extension NewsListInteractor {
         components.path = endPoint.path
         components.queryItems = endPoint.parameters
 
-        guard let url = components.url else { throw  RequestError.invalidURL }
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let decodedData = try JSONDecoder().decode(T.self, from: data)
-        return decodedData
+        guard let url = components.url else {
+            throw RequestError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = endPoint.method
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let response = response as? HTTPURLResponse else {
+                throw RequestError.noResponse
+            }
+            
+            switch response.statusCode {
+            case 200...299:
+                guard let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
+                    throw RequestError.decode
+                }
+                return decodedData
+            default:
+                throw RequestError.unknown
+            }
+        } catch URLError.Code.notConnectedToInternet {
+            throw RequestError.offline
+        }
     }
 }
 
