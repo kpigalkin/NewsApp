@@ -58,7 +58,7 @@ extension HomeInteractor: HomeBusinessLogic {
                 presenter?.presentBlogs(response: response)
                 
             } catch RequestError.offline {
-                guard let data = storageWorker?.getAllNews() else { return }
+                guard let data = storageWorker?.getAllBlogs() else { return }
 
                 let blogs = HomeContentModel(results: data)
                 let response = HomeModels.DisplayBlogs.Response(blogs: blogs, error: .offline)

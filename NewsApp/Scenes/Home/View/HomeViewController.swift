@@ -123,7 +123,7 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     private func requestToDisplayBlogDetail(by id: Int) {
-        interactor?.fetchSelectedNews(request: .init(id: id))
+        interactor?.fetchSelectedBlog(request: .init(id: id))
     }
     
     func fetchContent() {

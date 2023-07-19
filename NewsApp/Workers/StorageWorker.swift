@@ -33,38 +33,28 @@ extension StorageWorker: StorageWorkingLogic {
     }
     
     func saveNews(_ news: [DetailModel]) {
-        do {
-            try realm.writeAsync {
-                news.forEach { item in
-                    let dbItem = self.realm.object(ofType: DetailModel.self, forPrimaryKey: item.id) ?? {
-                        self.realm.create(DetailModel.self, value: item)
-                        return self.realm.object(ofType: DetailModel.self, forPrimaryKey: item.id)
-                    }()
-                    self.contentModel.news.append(dbItem!)
-                }
+        realm.writeAsync {
+            news.forEach { item in
+                let dbItem = self.realm.object(ofType: DetailModel.self, forPrimaryKey: item.id) ?? {
+                    self.realm.create(DetailModel.self, value: item)
+                    return self.realm.object(ofType: DetailModel.self, forPrimaryKey: item.id)
+                }()
+                self.contentModel.news.append(dbItem!)
             }
-        } catch {
-            print(error.localizedDescription)
         }
-        
     }
     
     func saveBlogs(_ blogs: [DetailModel]) {
         let content = contentModel
-         
-        do {
-            try realm.writeAsync {
-                content.blogs.removeAll()
-                blogs.forEach { item in
-                    let dbItem = self.realm.object(ofType: DetailModel.self, forPrimaryKey: item.id) ?? {
-                        self.realm.create(DetailModel.self, value: item)
-                        return self.realm.object(ofType: DetailModel.self, forPrimaryKey: item.id)
-                    }()
-                    content.news.append(dbItem!)
-                }
+        realm.writeAsync {
+            content.blogs.removeAll()
+            blogs.forEach { item in
+                let dbItem = self.realm.object(ofType: DetailModel.self, forPrimaryKey: item.id) ?? {
+                    self.realm.create(DetailModel.self, value: item)
+                    return self.realm.object(ofType: DetailModel.self, forPrimaryKey: item.id)
+                }()
+                content.blogs.append(dbItem!)
             }
-        } catch {
-            print(error.localizedDescription)
         }
     }
 }
@@ -77,13 +67,20 @@ private extension StorageWorker {
     }
     
     func configureRealm() -> Realm {
-        let realm = try! Realm(configuration: .defaultConfiguration)
-        let contentModel = ContentModel()
-        contentModel.screen = ContentModel.key
-        try? realm.write({
-            realm.deleteAll()
-            realm.add(contentModel, update: .modified)
-        })
-        return realm
+        do {
+            let realm = try Realm(configuration: .defaultConfiguration)
+            
+            if realm.objects(ContentModel.self).isEmpty {
+                let contentModel = ContentModel()
+                contentModel.screen = ContentModel.key
+                try realm.write {
+                    realm.add(contentModel)
+                }
+            }
+            
+            return realm
+        } catch {
+            fatalError("Ошибка инициализации базы данных Realm: \(error)")
+        }
     }
 }
