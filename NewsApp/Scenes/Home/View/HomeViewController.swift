@@ -16,7 +16,9 @@ final class HomeViewController: UIViewController {
     // MARK: - Private
     
     private enum Constants {
+        static let alertText = "Got it"
         static let refreshText = "Updating"
+        static let prefetchRange: Int = 2
     }
     
     private let newsCellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, NewsContentConfiguration> { cell, indexPath, configuration in
@@ -102,7 +104,7 @@ extension HomeViewController: HomeDisplayLogic {
     
     private func throwAlert(title: String?, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Got it", style: .cancel))
+        alert.addAction(UIAlertAction(title: Constants.alertText, style: .cancel))
         present(alert, animated: true)
     }
     
@@ -154,16 +156,22 @@ extension HomeViewController: UICollectionViewDelegate {
 }
 
     // MARK: - UICollectionViewDataSourcePrefetching
-    // FIXME: Not working
 
 extension HomeViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-//        guard indexPaths.first?.section == HomeSection.news.rawValue else {
-//            return
-//        }
-//        let itemsCount = dataSource.snapshot().numberOfItems(inSection: .news)
-//        guard indexPaths.last?.row == itemsCount - 1 else { return }
-//        requestToFetchNews(offset: itemsCount)
+        guard let lastIndex = indexPaths.last,
+              lastIndex.section == HomeSection.news.rawValue
+        else {
+            return
+        }
+
+        let itemsCount = dataSource.snapshot().numberOfItems(inSection: .news)
+        
+        guard lastIndex.row >= itemsCount - Constants.prefetchRange else {
+            return
+        }
+        
+        requestToFetchNews(offset: itemsCount)
     }
 }
 
