@@ -56,7 +56,7 @@ final class BlogContentView: UIView, UIContentView {
 private extension BlogContentView {
     func configure() {
         guard let content = configuration as? BlogContentConfiguration else { return }
-        imageView.kf.setImage(with: content.imageURL)
+        imageView.kf.setImage(with: content.imageURL, targetWidth: .smallPreview)
         titleLabel.text = content.title
     }
     

@@ -63,7 +63,7 @@ final class NewsContentView: UIView, UIContentView {
 private extension NewsContentView {
     func configure() {
         guard let content = configuration as? NewsContentConfiguration else { return }
-        imageView.kf.setImage(with: content.imageURL)
+        imageView.kf.setImage(with: content.imageURL, targetWidth: .preview)
         summaryLabel.text = content.summary
         titleLabel.text = content.title
         dateLabel.text = content.date

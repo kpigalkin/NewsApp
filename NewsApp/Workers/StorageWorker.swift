@@ -81,6 +81,7 @@ private extension StorageWorker {
         let contentModel = ContentModel()
         contentModel.screen = ContentModel.key
         try? realm.write({
+            realm.deleteAll()
             realm.add(contentModel, update: .modified)
         })
         return realm

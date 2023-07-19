@@ -16,6 +16,7 @@ final class DetailViewController: UIViewController {
     // MARK: - Private
     
     private enum Constants {
+        static let animationDuration: CGFloat = 1
         static let aspectRatio: CGFloat = 10 / 16
         static let heightPadding: CGFloat = 25
         static let padding: CGFloat = 10
@@ -52,7 +53,7 @@ final class DetailViewController: UIViewController {
     private lazy var dateLabel = UILabel(style: .footnote)
             
     // MARK: - Lifecycle
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray5
@@ -65,6 +66,10 @@ final class DetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         resizeImageView()
     }
+    
+    deinit {
+        
+    }
 }
 
 extension DetailViewController: DetailDisplayLogic {
@@ -72,7 +77,7 @@ extension DetailViewController: DetailDisplayLogic {
     // MARK: - Display
     
     func displayDetail(viewModel: Detail.Display.ViewModel) {
-        imageView.kf.setImage(with: viewModel.imageURL)
+        imageView.kf.setImage(with: viewModel.imageURL, targetWidth: .full)
         linkTextView.attributedText = createLink(from: viewModel.url)
         dateLabel.text = viewModel.publishDate
         summaryLabel.text = viewModel.summary
@@ -129,12 +134,14 @@ private extension DetailViewController {
     
     func resizeImageView() {
         guard let image = imageView.image else { return }
-
-        stackView.layoutIfNeeded()
-        let width = stackView.bounds.width
         
-        imageView.heightConstraint?.constant = image.aspectRatio * width
-        imageView.layoutIfNeeded()
+        UIView.animate(withDuration: Constants.animationDuration, delay: .zero) {
+            self.stackView.layoutIfNeeded()
+            let width = self.stackView.bounds.width
+            
+            self.imageView.heightConstraint?.constant = image.aspectRatio * width
+            self.imageView.layoutIfNeeded()
+        }
     }
     
     // MARK: - Link

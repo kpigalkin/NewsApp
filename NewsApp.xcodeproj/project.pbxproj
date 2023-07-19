@@ -39,6 +39,8 @@
 		DBD1039A2A65D96A00077781 /* BlogContenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD103992A65D96A00077781 /* BlogContenView.swift */; };
 		DBDE6BE02A6753F1000FC287 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDE6BDF2A6753F1000FC287 /* UIImage+Extension.swift */; };
 		DBDE6BE22A675F31000FC287 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDE6BE12A675F31000FC287 /* UIView+Extension.swift */; };
+		DBDE6BE72A6812AE000FC287 /* KingfisherWrapper+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDE6BE62A6812AE000FC287 /* KingfisherWrapper+Extension.swift */; };
+		DBDE6BEA2A681387000FC287 /* ImageSizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDE6BE92A681387000FC287 /* ImageSizeConstants.swift */; };
 		DBDEDE3E2A66B9BE00F88AF9 /* ContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDEDE3D2A66B9BE00F88AF9 /* ContentModel.swift */; };
 		DBEDF3062A614C2100F71DAC /* HomeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEDF3052A614C2100F71DAC /* HomeSection.swift */; };
 /* End PBXBuildFile section */
@@ -75,6 +77,8 @@
 		DBD103992A65D96A00077781 /* BlogContenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlogContenView.swift; sourceTree = "<group>"; };
 		DBDE6BDF2A6753F1000FC287 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		DBDE6BE12A675F31000FC287 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		DBDE6BE62A6812AE000FC287 /* KingfisherWrapper+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KingfisherWrapper+Extension.swift"; sourceTree = "<group>"; };
+		DBDE6BE92A681387000FC287 /* ImageSizeConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSizeConstants.swift; sourceTree = "<group>"; };
 		DBDEDE3D2A66B9BE00F88AF9 /* ContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModel.swift; sourceTree = "<group>"; };
 		DBEDF3052A614C2100F71DAC /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,6 +165,7 @@
 				DBDE6BDF2A6753F1000FC287 /* UIImage+Extension.swift */,
 				DB4E3B1E2A61FAB2008D0CA3 /* UILabel+Extension.swift */,
 				DBDE6BE12A675F31000FC287 /* UIView+Extension.swift */,
+				DBDE6BE62A6812AE000FC287 /* KingfisherWrapper+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -191,6 +196,7 @@
 				DBD1037C2A65496B00077781 /* Storage */,
 				DBAB50972A5E125B00DE6866 /* Network */,
 				DBAB50962A5DF0F900DE6866 /* Extensions */,
+				DBDE6BE82A68135F000FC287 /* Constants */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -274,6 +280,14 @@
 				DBD103872A655A6E00077781 /* StorageWorker.swift */,
 			);
 			path = Workers;
+			sourceTree = "<group>";
+		};
+		DBDE6BE82A68135F000FC287 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				DBDE6BE92A681387000FC287 /* ImageSizeConstants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,10 +384,12 @@
 				DBD103922A65A99000077781 /* RequestError.swift in Sources */,
 				DBAB50702A5DD4B600DE6866 /* SceneDelegate.swift in Sources */,
 				DBAB50AE2A5F669800DE6866 /* SNAPIEndPoint.swift in Sources */,
+				DBDE6BEA2A681387000FC287 /* ImageSizeConstants.swift in Sources */,
 				DBDEDE3E2A66B9BE00F88AF9 /* ContentModel.swift in Sources */,
 				DBDE6BE02A6753F1000FC287 /* UIImage+Extension.swift in Sources */,
 				DBAB50952A5DE65700DE6866 /* HomeBuilder.swift in Sources */,
 				DBAB50C92A6056B800DE6866 /* DetailInteractor.swift in Sources */,
+				DBDE6BE72A6812AE000FC287 /* KingfisherWrapper+Extension.swift in Sources */,
 				DBAB508A2A5DE3FC00DE6866 /* HomePresenter.swift in Sources */,
 				DBAB50C42A6056B800DE6866 /* DetailPresenter.swift in Sources */,
 				DBAB50A12A5EAC2000DE6866 /* NewsContentView.swift in Sources */,
