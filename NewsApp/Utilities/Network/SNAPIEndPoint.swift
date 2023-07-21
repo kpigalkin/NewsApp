@@ -12,8 +12,11 @@ protocol EndPoint {
 }
 
 enum SNAPIEndPoint: EndPoint {
+    case getBlogDetail(id: Int)
+    case getNewsDetail(id: Int)
     case getNews(offset: Int)
-    case getBlogs
+    case getLatestBlogs
+    case getLatestNews
     
     var method: String {
         switch self {
@@ -38,10 +41,14 @@ enum SNAPIEndPoint: EndPoint {
     
     var path: String {
         switch self {
-        case .getNews:
-            return "/v4/articles"
-        case .getBlogs:
+        case .getBlogDetail(id: let id):
+            return "/v4/blogs/" + "\(id)"
+        case .getNewsDetail(id: let id):
+            return "/v4/articles/" + "\(id)"
+        case .getLatestBlogs:
             return "/v4/blogs"
+        default:
+            return "/v4/articles"
         }
     }
     
