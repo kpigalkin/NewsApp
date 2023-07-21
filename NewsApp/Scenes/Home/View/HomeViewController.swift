@@ -1,8 +1,9 @@
 import UIKit
 
 protocol HomeDisplayLogic: AnyObject {
-    func displayNews(viewModel: HomeModels.DisplayNews.ViewModel)
-    func displayBlogs(viewModel: HomeModels.DisplayBlogs.ViewModel)
+    func displayContent(viewModel: HomeModels.DisplayContent.ViewModel)
+    func displayMoreNews(viewModel: HomeModels.DisplayMoreNews.ViewModel)
+    func displayDetail(viewModel: HomeModels.DisplayDetail.ViewModel)
 }
 
 final class HomeViewController: UIViewController {
@@ -54,8 +55,7 @@ final class HomeViewController: UIViewController {
         control.addAction(
             UIAction(handler: { [weak self] _ in
                 guard let self else { return }
-                self.requestToFetchBlogs()
-                self.requestToFetchNews(offset: .zero)
+                self.requestToFetchContent()
             }),
             for: .valueChanged
         )
@@ -71,36 +71,47 @@ final class HomeViewController: UIViewController {
         createSections()
         addSubviews()
         configureConstraints()
-        fetchContent()
+        requestToFetchContent()
     }
 }
 
 extension HomeViewController: HomeDisplayLogic {
     
-    // MARK: Display
+    // MARK: Display & Route
     
-    func displayNews(viewModel: HomeModels.DisplayNews.ViewModel) {
+    func displayContent(viewModel: HomeModels.DisplayContent.ViewModel) {
         if !viewModel.success {
             throwAlert(title: viewModel.errorTitle, message: viewModel.errorMessage)
         }
+        
         var snapshot = dataSource.snapshot()
+        snapshot.appendItems(viewModel.blogs, toSection: .blog)
         snapshot.appendItems(viewModel.news, toSection: .news)
-        dataSource.apply(snapshot)
+        dataSource.apply(snapshot, animatingDifferences: true)
         
         refreshControl.endRefreshing()
     }
     
-    func displayBlogs(viewModel: HomeModels.DisplayBlogs.ViewModel) {
+    func displayMoreNews(viewModel: HomeModels.DisplayMoreNews.ViewModel) {
         if !viewModel.success {
             throwAlert(title: viewModel.errorTitle, message: viewModel.errorMessage)
         }
-
+        
         var snapshot = dataSource.snapshot()
-        snapshot.appendItems(viewModel.blogs, toSection: .blog)
-        dataSource.apply(snapshot)
-
+        snapshot.appendItems(viewModel.news, toSection: .news)
+        dataSource.apply(snapshot, animatingDifferences: true)
+        
         refreshControl.endRefreshing()
     }
+    
+    func displayDetail(viewModel: HomeModels.DisplayDetail.ViewModel) {
+        if !viewModel.success {
+            throwAlert(title: viewModel.errorTitle, message: viewModel.errorMessage)
+        }
+        
+        router?.routeToDetail()
+    }
+
     
     private func throwAlert(title: String?, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -110,32 +121,17 @@ extension HomeViewController: HomeDisplayLogic {
     
     // MARK: Request
     
-    private func requestToFetchNews(offset: Int) {
-        interactor?.fetchNews(request: .init(offset: offset))
-    }
-    
-    private func requestToFetchBlogs() {
-        interactor?.fetchBlogs(request: .init())
-    }
-    
-    private func requestToDisplayNewsDetail(by id: Int) {
-        interactor?.fetchSelectedNews(request: .init(id: id))
-    }
-    
-    private func requestToDisplayBlogDetail(by id: Int) {
-        interactor?.fetchSelectedBlog(request: .init(id: id))
-    }
-    
-    func fetchContent() {
+    private func requestToFetchContent() {
         refreshControl.beginRefreshing()
-        requestToFetchBlogs()
-        requestToFetchNews(offset: .zero)
+        interactor?.fetchContent(request: .init())
     }
     
-    // MARK: Route
+    private func requestToDisplayMoreNews(offset: Int) {
+        interactor?.fetchMoreNews(request: .init(offset: offset))
+    }
     
-    private func routeToDetail() {
-        router?.routeToDetail()
+    private func requestToDisplayDetail(by id: Int, for section: HomeSection) {
+        interactor?.fetchSelectedDetail(request: .init(id: id, forSection: section))
     }
 }
 
@@ -144,13 +140,11 @@ extension HomeViewController: HomeDisplayLogic {
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cellConfiguration = collectionView.cellForItem(at: indexPath)?.contentConfiguration
-        
+
         if let config = cellConfiguration as? NewsContentConfiguration {
-            requestToDisplayNewsDetail(by: config.id)
-            routeToDetail()
+            requestToDisplayDetail(by: config.id, for: HomeSection.news)
         } else if let config = cellConfiguration as? BlogContentConfiguration {
-            requestToDisplayBlogDetail(by: config.id)
-            routeToDetail()
+            requestToDisplayDetail(by: config.id, for: HomeSection.blog)
         }
     }
 }
@@ -171,7 +165,7 @@ extension HomeViewController: UICollectionViewDataSourcePrefetching {
             return
         }
         
-        requestToFetchNews(offset: itemsCount)
+        requestToDisplayMoreNews(offset: itemsCount)
     }
 }
 

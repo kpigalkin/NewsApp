@@ -16,7 +16,7 @@ final class DetailViewController: UIViewController {
     // MARK: - Private
     
     private enum Constants {
-        static let animationDuration: CGFloat = 1
+        static let animationDuration: CGFloat = 0.7
         static let aspectRatio: CGFloat = 10 / 16
         static let heightPadding: CGFloat = 25
         static let padding: CGFloat = 10

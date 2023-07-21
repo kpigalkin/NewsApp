@@ -11,13 +11,13 @@ struct HomeBuilder: HomeBuildable {
         let interactor = HomeInteractor()
         let presenter = HomePresenter()
         let router = HomeRouter()
-        let networkWorker = NetworkWorker()
-        let storageWorker = StorageWorker()
+        let networkManager = NetworkManager()
+        let storageManager = StorageManager()
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter
-        interactor.storageWorker = storageWorker
-        interactor.networkWorker = networkWorker
+        interactor.storageManager = storageManager
+        interactor.networkManager = networkManager
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor

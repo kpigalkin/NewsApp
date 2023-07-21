@@ -14,7 +14,7 @@ final class HomeRouter: HomeDataPassing {
 }
 
 extension HomeRouter: HomeRoutingLogic {
-    func routeToDetail() {
+    func routeToDetail() {        
         guard let destinationVC = DetailBuilder().build() as? DetailViewController,
               var detailsDataStore = destinationVC.router?.dataStore,
               let viewController,

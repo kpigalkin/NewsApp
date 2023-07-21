@@ -1,12 +1,12 @@
 import Foundation
 
-protocol NetworkWorkingLogic {
+protocol NetworkManagingLogic {
     func request<T: Decodable>(endPoint: EndPoint, model: T.Type) async throws -> T
 }
 
-final class NetworkWorker {}
+final class NetworkManager {}
 
-extension NetworkWorker: NetworkWorkingLogic {
+extension NetworkManager: NetworkManagingLogic {
     func request<T: Decodable>(endPoint: EndPoint, model: T.Type) async throws -> T {
         var components = URLComponents()
         components.scheme = endPoint.scheme

@@ -2,12 +2,12 @@ import UIKit
 
 enum HomeModels {
     
-    enum DisplayNews {        
+    enum DisplayMoreNews {
         struct Request {
             let offset: Int
         }
         struct Response {
-            let news: HomeContentModel
+            let news: HomeContentItems
             let error: RequestError?
         }
         struct ViewModel {
@@ -18,13 +18,15 @@ enum HomeModels {
         }
     }
     
-    enum DisplayBlogs {
+    enum DisplayContent {
         struct Request {}
         struct Response {
-            let blogs: HomeContentModel
+            let blogs: HomeContentItems
+            let news: HomeContentItems
             let error: RequestError?
         }
         struct ViewModel {
+            let news: [HomeCollectionItem]
             let blogs: [HomeCollectionItem]
             let success: Bool
             let errorTitle: String?
@@ -32,19 +34,22 @@ enum HomeModels {
         }
     }
     
-    enum DisplayNewsDetail {
+    enum DisplayDetail {
         struct Request {
             let id: Int
+            let forSection: HomeSection
         }
-    }
-    
-    enum DisplayBlogDetail {
-        struct Request {
-            let id: Int
+        struct Response {
+            let error: Error?
+        }
+        struct ViewModel {
+            let success: Bool
+            let errorTitle: String?
+            let errorMessage: String?
         }
     }
 }
 
-struct HomeContentModel: Decodable {
+struct HomeContentItems: Decodable {
     let results: [DetailModel]
 }

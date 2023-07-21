@@ -1,10 +1,9 @@
 import UIKit
 
 protocol HomeBusinessLogic {
-    func fetchNews(request: HomeModels.DisplayNews.Request)
-    func fetchBlogs(request: HomeModels.DisplayBlogs.Request)
-    func fetchSelectedNews(request: HomeModels.DisplayNewsDetail.Request)
-    func fetchSelectedBlog(request: HomeModels.DisplayBlogDetail.Request)
+    func fetchContent(request: HomeModels.DisplayContent.Request)
+    func fetchMoreNews(request: HomeModels.DisplayMoreNews.Request)
+    func fetchSelectedDetail(request: HomeModels.DisplayDetail.Request)
 }
 
 protocol HomeDataStore {
@@ -12,67 +11,100 @@ protocol HomeDataStore {
 }
 
 final class HomeInteractor: HomeDataStore {
-    var networkWorker: NetworkWorkingLogic?
-    var storageWorker: StorageWorkingLogic?
+    var networkManager: NetworkManagingLogic?
+    var storageManager: StorageManagingLogic?
     var presenter: HomePresentationLogic?
 
     var itemDetail: DetailModel?
 }
 
 extension HomeInteractor: HomeBusinessLogic {
-    func fetchNews(request: HomeModels.DisplayNews.Request) {
+    
+    func fetchContent(request: HomeModels.DisplayContent.Request) {
         Task(priority: .userInitiated) { @MainActor in
             do {
-                guard let news = try await networkWorker?.request(
-                    endPoint: SNAPIEndPoint.getNews(offset: request.offset),
-                    model: HomeContentModel.self
-                ) else { return }
+                async let newsRequest = networkManager?.request(
+                    endPoint: SNAPIEndPoint.getLatestNews,
+                    model: HomeContentItems.self
+                )
+                async let blogsRequest  = networkManager?.request(
+                    endPoint: SNAPIEndPoint.getLatestBlogs,
+                    model: HomeContentItems.self
+                )
+                guard let news = try await newsRequest,
+                      let blogs = try await blogsRequest
+                else { return }
                 
-                storageWorker?.saveNews(news.results)
+                let response = HomeModels.DisplayContent.Response(blogs: blogs, news: news, error: nil)
+                presenter?.presentContent(response: response)
                 
-                let response = HomeModels.DisplayNews.Response(news: news, error: nil)
-                presenter?.presentNews(response: response)
+                storageManager?.saveBlogs(blogs.results)
+                storageManager?.saveNews(news.results)
                 
             } catch RequestError.offline {
-                guard let data = storageWorker?.getAllNews() else { return }
+                guard let dbNews = storageManager?.getNews(),
+                      let dbBlogs = storageManager?.getBlogs()
+                else { return }
                 
-                let news = HomeContentModel(results: data)
-                let response = HomeModels.DisplayNews.Response(news: news, error: .offline)
+                let news = HomeContentItems(results: dbNews)
+                let blogs = HomeContentItems(results: dbBlogs)
+                let response = HomeModels.DisplayContent.Response(blogs: blogs, news: news, error: .offline)
                 
-                presenter?.presentNews(response: response)
+                presenter?.presentContent(response: response)
             }
         }
     }
     
-    func fetchBlogs(request: HomeModels.DisplayBlogs.Request) {
+    func fetchMoreNews(request: HomeModels.DisplayMoreNews.Request) {
         Task(priority: .userInitiated) { @MainActor in
-            do {
-                guard let blogs = try await networkWorker?.request(
-                    endPoint: SNAPIEndPoint.getBlogs,
-                    model: HomeContentModel.self
-                ) else { return }
-                
-                storageWorker?.saveBlogs(blogs.results)
-                
-                let response = HomeModels.DisplayBlogs.Response(blogs: blogs, error: nil)
-                presenter?.presentBlogs(response: response)
-                
-            } catch RequestError.offline {
-                guard let data = storageWorker?.getAllBlogs() else { return }
-
-                let blogs = HomeContentModel(results: data)
-                let response = HomeModels.DisplayBlogs.Response(blogs: blogs, error: .offline)
-
-                presenter?.presentBlogs(response: response)
-            }
+            guard let news = try await networkManager?.request(
+                endPoint: SNAPIEndPoint.getNews(offset: request.offset),
+                model: HomeContentItems.self
+            ) else { return }
+                        
+            let response = HomeModels.DisplayMoreNews.Response(news: news, error: nil)
+            presenter?.presentMoreNews(response: response)
+            
+            storageManager?.saveNews(news.results)
         }
     }
     
-    func fetchSelectedNews(request: HomeModels.DisplayNewsDetail.Request) {
-        itemDetail = storageWorker?.getNewsDetail(with: request.id)
-    }
-    
-    func fetchSelectedBlog(request: HomeModels.DisplayBlogDetail.Request) {
-        itemDetail = storageWorker?.getBlogDetail(with: request.id)
+    func fetchSelectedDetail(request: HomeModels.DisplayDetail.Request) {
+        switch request.forSection {
+        case .blog:
+            
+            do {
+                itemDetail = try storageManager?.getBlogDetail(with: request.id)
+                presenter?.presentDetail(response: .init(error: nil))
+            } catch StorageError.notFound {
+                
+                Task(priority: .userInitiated) { @MainActor in
+                    let endPoint = SNAPIEndPoint.getBlogDetail(id: request.id)
+                    itemDetail = try await networkManager?.request(endPoint: endPoint, model: DetailModel.self)
+                    presenter?.presentDetail(response: .init(error: nil))
+                }
+                
+            } catch {
+                presenter?.presentDetail(response: .init(error: error))
+            }
+            
+        case .news:
+            
+            do {
+                itemDetail = try storageManager?.getNewsDetail(with: request.id)
+                presenter?.presentDetail(response: .init(error: nil))
+            } catch StorageError.notFound {
+                
+                Task(priority: .userInitiated) { @MainActor in
+                    let endPoint = SNAPIEndPoint.getNewsDetail(id: request.id)
+                    itemDetail = try await networkManager?.request(endPoint: endPoint, model: DetailModel.self)
+                    presenter?.presentDetail(response: .init(error: nil))
+                }
+                
+            } catch {
+                presenter?.presentDetail(response: .init(error: error))
+            }
+            
+        }
     }
 }
