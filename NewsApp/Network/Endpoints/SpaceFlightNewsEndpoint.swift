@@ -2,26 +2,18 @@
 
 import Foundation
 
-protocol EndPoint {
-    var scheme: String { get }
-    var host: String { get }
-    var path: String { get }
-    var parameters: [URLQueryItem] { get }
-    var method: String { get }
-    static var dateFormats: [String] { get }
+enum SpaceFlightNewsEndpoint {
+    case blogDetail(id: Int)
+    case newsDetail(id: Int)
+    case news(offset: Int)
+    case blogs
 }
 
-enum SNAPIEndPoint: EndPoint {
-    case getBlogDetail(id: Int)
-    case getNewsDetail(id: Int)
-    case getNews(offset: Int)
-    case getLatestBlogs
-    case getLatestNews
-    
-    var method: String {
+extension SpaceFlightNewsEndpoint: Endpoint {
+    var method: HTTPMethod {
         switch self {
         default:
-            return "GET"
+            return .get
         }
     }
     
@@ -41,20 +33,20 @@ enum SNAPIEndPoint: EndPoint {
     
     var path: String {
         switch self {
-        case .getBlogDetail(id: let id):
+        case .blogDetail(id: let id):
             return "/v4/blogs/" + "\(id)"
-        case .getNewsDetail(id: let id):
+        case .newsDetail(id: let id):
             return "/v4/articles/" + "\(id)"
-        case .getLatestBlogs:
+        case .blogs:
             return "/v4/blogs"
-        default:
+        case .news:
             return "/v4/articles"
         }
     }
     
     var parameters: [URLQueryItem] {
         switch self {
-        case .getNews(offset: let offset):
+        case .news(offset: let offset):
             return [
                 URLQueryItem(name: "offset", value: "\(offset)")
             ]
@@ -62,7 +54,11 @@ enum SNAPIEndPoint: EndPoint {
             return []
         }
     }
-    
+}
+
+// MARK: - Date formats
+
+extension SpaceFlightNewsEndpoint {
     static var dateFormats: [String] {
         switch self {
         default:
@@ -73,3 +69,4 @@ enum SNAPIEndPoint: EndPoint {
         }
     }
 }
+

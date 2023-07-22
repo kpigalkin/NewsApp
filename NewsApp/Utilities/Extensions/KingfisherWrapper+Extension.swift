@@ -2,7 +2,7 @@ import Kingfisher
 import UIKit
 
 extension KingfisherWrapper<UIImageView> {
-    func setImage(with url: URL?, targetWidth: AppImageSize) {
+    func setImage(with url: URL?, targetWidth: AppConstants.ImageSize) {
         let resizeTransform = ResizingImageProcessor(
             referenceSize: CGSize(
                 width: targetWidth.rawValue,

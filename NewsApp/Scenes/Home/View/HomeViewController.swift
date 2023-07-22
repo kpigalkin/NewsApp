@@ -17,6 +17,7 @@ final class HomeViewController: UIViewController {
     // MARK: - Private
     
     private enum Constants {
+        static let alertTitle = "Error occurs"
         static let alertText = "Got it"
         static let refreshText = "Updating"
         static let prefetchRange: Int = 2
@@ -80,8 +81,8 @@ extension HomeViewController: HomeDisplayLogic {
     // MARK: Display & Route
     
     func displayContent(viewModel: HomeModels.DisplayContent.ViewModel) {
-        if !viewModel.success {
-            throwAlert(title: viewModel.errorTitle, message: viewModel.errorMessage)
+        if let description = viewModel.errorDescription {
+            throwAlert(description: description)
         }
         
         var snapshot = dataSource.snapshot()
@@ -93,8 +94,8 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     func displayMoreNews(viewModel: HomeModels.DisplayMoreNews.ViewModel) {
-        if !viewModel.success {
-            throwAlert(title: viewModel.errorTitle, message: viewModel.errorMessage)
+        if let description = viewModel.errorDescription {
+            throwAlert(description: description)
         }
         
         var snapshot = dataSource.snapshot()
@@ -105,16 +106,19 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     func displayDetail(viewModel: HomeModels.DisplayDetail.ViewModel) {
-        if !viewModel.success {
-            throwAlert(title: viewModel.errorTitle, message: viewModel.errorMessage)
+        if let description = viewModel.errorDescription {
+            throwAlert(description: description)
         }
         
         router?.routeToDetail()
     }
-
     
-    private func throwAlert(title: String?, message: String?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    private func throwAlert(description: String?) {
+        let alert = UIAlertController(
+            title: Constants.alertTitle,
+            message: description,
+            preferredStyle: .alert
+        )
         alert.addAction(UIAlertAction(title: Constants.alertText, style: .cancel))
         present(alert, animated: true)
     }
@@ -131,7 +135,7 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     private func requestToDisplayDetail(by id: Int, for section: HomeSection) {
-        interactor?.fetchSelectedDetail(request: .init(id: id, forSection: section))
+        interactor?.fetchSelectedDetail(request: .init(id: id, section: section))
     }
 }
 

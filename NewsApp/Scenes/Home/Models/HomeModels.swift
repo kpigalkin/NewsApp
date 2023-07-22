@@ -7,49 +7,39 @@ enum HomeModels {
             let offset: Int
         }
         struct Response {
-            let news: HomeContentItems
-            let error: RequestError?
+            let news: HomeContentItems?
+            let errorDescription: String?
         }
         struct ViewModel {
             let news: [HomeCollectionItem]
-            let success: Bool
-            let errorTitle: String?
-            let errorMessage: String?
+            let errorDescription: String?
         }
     }
     
     enum DisplayContent {
         struct Request {}
         struct Response {
-            let blogs: HomeContentItems
-            let news: HomeContentItems
-            let error: RequestError?
+            let blogs: HomeContentItems?
+            let news: HomeContentItems?
+            let errorDescription: String?
         }
         struct ViewModel {
             let news: [HomeCollectionItem]
             let blogs: [HomeCollectionItem]
-            let success: Bool
-            let errorTitle: String?
-            let errorMessage: String?
+            let errorDescription: String?
         }
     }
     
     enum DisplayDetail {
         struct Request {
             let id: Int
-            let forSection: HomeSection
+            let section: HomeSection
         }
         struct Response {
-            let error: Error?
+            let errorDescription: String?
         }
         struct ViewModel {
-            let success: Bool
-            let errorTitle: String?
-            let errorMessage: String?
+            let errorDescription: String?
         }
     }
-}
-
-struct HomeContentItems: Decodable {
-    let results: [DetailModel]
 }

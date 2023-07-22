@@ -6,8 +6,6 @@ protocol DetailPresentationLogic {
 
 final class DetailPresenter {
     weak var viewController: DetailDisplayLogic?
-    
-    private let toDateFormat = "MMM d, h:mm a"
 }
 
 extension DetailPresenter: DetailPresentationLogic {
@@ -19,9 +17,9 @@ extension DetailPresenter: DetailPresentationLogic {
             title: response.element.title,
             summary: response.element.summary,
             publishDate: DateFormatter().convertMultipleFormatDate(
-                formats: SNAPIEndPoint.dateFormats,
+                formats: SpaceFlightNewsEndpoint.dateFormats,
                 from: response.element.date,
-                toFormat: toDateFormat
+                toFormat: AppConstants.DateFormat.presentingFormat.rawValue
             )
         )
         viewController?.displayDetail(viewModel: viewModel)

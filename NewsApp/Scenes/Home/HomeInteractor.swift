@@ -11,100 +11,137 @@ protocol HomeDataStore {
 }
 
 final class HomeInteractor: HomeDataStore {
-    var networkManager: NetworkManagingLogic?
+    var networkManager: NetworkWorkingLogic?
     var storageManager: StorageManagingLogic?
     var presenter: HomePresentationLogic?
 
     var itemDetail: DetailModel?
 }
 
+private extension HomeInteractor {
+
+}
+
 extension HomeInteractor: HomeBusinessLogic {
-    
     func fetchContent(request: HomeModels.DisplayContent.Request) {
-        Task(priority: .userInitiated) { @MainActor in
+        Task {
             do {
-                async let newsRequest = networkManager?.request(
-                    endPoint: SNAPIEndPoint.getLatestNews,
-                    model: HomeContentItems.self
-                )
-                async let blogsRequest  = networkManager?.request(
-                    endPoint: SNAPIEndPoint.getLatestBlogs,
-                    model: HomeContentItems.self
-                )
+                async let newsRequest = networkManager?.getNews(offset: .zero)
+                async let blogRequest = networkManager?.getBlogs()
+                
                 guard let news = try await newsRequest,
-                      let blogs = try await blogsRequest
-                else { return }
+                      let blogs = try await blogRequest else { return }
                 
-                let response = HomeModels.DisplayContent.Response(blogs: blogs, news: news, error: nil)
-                presenter?.presentContent(response: response)
+                await MainActor.run {
+                    storageManager?.saveBlogs(blogs.results)
+                    storageManager?.saveNews(news.results)
+                    
+                    let response = HomeModels.DisplayContent.Response(
+                        blogs: blogs,
+                        news: news,
+                        errorDescription: nil
+                    )
+                    presenter?.presentContent(response: response)
+                }
+            } catch let error as RequestError {
+                // TRY STORAGE
+                await MainActor.run {
+                    guard let dbNews = storageManager?.getNews(),
+                          let dbBlogs = storageManager?.getBlogs() else { return }
+                    
+                    let news = HomeContentItems(results: dbNews)
+                    let blogs = HomeContentItems(results: dbBlogs)
+                    let response = HomeModels.DisplayContent.Response(blogs: blogs, news: news, errorDescription: error.description)
+                    presenter?.presentContent(response: response)
+                }
                 
-                storageManager?.saveBlogs(blogs.results)
-                storageManager?.saveNews(news.results)
+            } catch let error as StorageError {
                 
-            } catch RequestError.offline {
-                guard let dbNews = storageManager?.getNews(),
-                      let dbBlogs = storageManager?.getBlogs()
-                else { return }
-                
-                let news = HomeContentItems(results: dbNews)
-                let blogs = HomeContentItems(results: dbBlogs)
-                let response = HomeModels.DisplayContent.Response(blogs: blogs, news: news, error: .offline)
-                
-                presenter?.presentContent(response: response)
+                await MainActor.run {
+                    let response = HomeModels.DisplayContent.Response(blogs: nil, news: nil, errorDescription: error.description)
+                    presenter?.presentContent(response: response)
+                }
             }
         }
     }
     
     func fetchMoreNews(request: HomeModels.DisplayMoreNews.Request) {
-        Task(priority: .userInitiated) { @MainActor in
-            guard let news = try await networkManager?.request(
-                endPoint: SNAPIEndPoint.getNews(offset: request.offset),
-                model: HomeContentItems.self
-            ) else { return }
-                        
-            let response = HomeModels.DisplayMoreNews.Response(news: news, error: nil)
-            presenter?.presentMoreNews(response: response)
-            
-            storageManager?.saveNews(news.results)
+        Task {
+            do {
+
+                guard let news = try await networkManager?.getNews(offset: request.offset) else {
+                    return
+                }
+                
+                await MainActor.run {
+                    storageManager?.saveNews(news.results)
+                    
+                    let response = HomeModels.DisplayMoreNews.Response(news: news, errorDescription: nil)
+                    presenter?.presentMoreNews(response: response)
+                }
+                
+            } catch let error as RequestError {
+
+                guard let dbNews = storageManager?.getNews() else { return }
+                
+                let response = HomeModels.DisplayMoreNews.Response(
+                    news: HomeContentItems(results: dbNews),
+                    errorDescription: error.description
+                )
+                
+                await MainActor.run {
+                    presenter?.presentMoreNews(response: response)
+                }
+                
+            } catch let error as StorageError {
+                
+                await MainActor.run {
+                    let response = HomeModels.DisplayMoreNews.Response(news: nil, errorDescription: error.description)
+                    presenter?.presentMoreNews(response: response)
+                }
+            } catch let error {
+                await MainActor.run {
+                    presenter?.presentMoreNews(response: .init(
+                        news: nil,
+                        errorDescription: error.localizedDescription
+                    ))
+                }
+            }
         }
     }
     
     func fetchSelectedDetail(request: HomeModels.DisplayDetail.Request) {
-        switch request.forSection {
+        
+        
+        switch request.section {
         case .blog:
-            
-            do {
-                itemDetail = try storageManager?.getBlogDetail(with: request.id)
-                presenter?.presentDetail(response: .init(error: nil))
-            } catch StorageError.notFound {
-                
-                Task(priority: .userInitiated) { @MainActor in
-                    let endPoint = SNAPIEndPoint.getBlogDetail(id: request.id)
-                    itemDetail = try await networkManager?.request(endPoint: endPoint, model: DetailModel.self)
-                    presenter?.presentDetail(response: .init(error: nil))
-                }
-                
-            } catch {
-                presenter?.presentDetail(response: .init(error: error))
-            }
-            
+            itemDetail = storageManager?.getBlogDetail(with: request.id)
         case .news:
-            
+            itemDetail = storageManager?.getNewsDetail(with: request.id)
+        }
+
+        guard itemDetail == nil else {
+            presenter?.presentDetail(response: .init(errorDescription: nil))
+            return
+        }
+        
+        // TRY NETWORK
+        Task {
             do {
-                itemDetail = try storageManager?.getNewsDetail(with: request.id)
-                presenter?.presentDetail(response: .init(error: nil))
-            } catch StorageError.notFound {
-                
-                Task(priority: .userInitiated) { @MainActor in
-                    let endPoint = SNAPIEndPoint.getNewsDetail(id: request.id)
-                    itemDetail = try await networkManager?.request(endPoint: endPoint, model: DetailModel.self)
-                    presenter?.presentDetail(response: .init(error: nil))
+                switch request.section {
+                case .blog:
+                    itemDetail = try await networkManager?.getBlogDetail(id: request.id)
+                case .news:
+                    itemDetail = try await networkManager?.getNewsDetail(id: request.id)
                 }
-                
-            } catch {
-                presenter?.presentDetail(response: .init(error: error))
+                await MainActor.run {
+                    presenter?.presentDetail(response: .init(errorDescription: nil))
+                }
+            } catch let error as RequestError {
+                await MainActor.run {
+                    presenter?.presentDetail(response: .init(errorDescription: error.description))
+                }
             }
-            
         }
     }
 }

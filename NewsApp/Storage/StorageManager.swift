@@ -5,8 +5,8 @@ protocol StorageManagingLogic {
     func getNews() -> [DetailModel]
     func getBlogs() -> [DetailModel]
     
-    func getNewsDetail(with id: Int) throws -> DetailModel?
-    func getBlogDetail(with id: Int) throws -> DetailModel?
+    func getNewsDetail(with id: Int) -> DetailModel?
+    func getBlogDetail(with id: Int) -> DetailModel?
     
     func saveNews(_ news: [DetailModel])
     func saveBlogs(_ blogs: [DetailModel])
@@ -39,18 +39,13 @@ extension StorageManager: StorageManagingLogic {
         return Array(storage.blogs)
     }
     
-    func getNewsDetail(with id: Int) throws -> DetailModel? {
-        guard let detail = storage.news.first(where: { $0.id == id }) else {
-            throw StorageError.notFound
-        }
-        return detail
+    func getNewsDetail(with id: Int) -> DetailModel? {
+        return storage.news.first(where: { $0.id == id })
+
     }
     
-    func getBlogDetail(with id: Int) throws -> DetailModel? {
-        guard let detail = storage.blogs.first(where: { $0.id == id }) else {
-            throw StorageError.notFound
-        }
-        return detail
+    func getBlogDetail(with id: Int) -> DetailModel? {
+        return storage.blogs.first(where: { $0.id == id })
     }
     
     func saveNews(_ news: [DetailModel]) {
