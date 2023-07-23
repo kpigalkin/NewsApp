@@ -79,12 +79,9 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: HomeDisplayLogic {
     
     // MARK: Display & Route
-    
     func displayContent(viewModel: HomeModels.DisplayContent.ViewModel) {
-        if let description = viewModel.errorDescription {
-            throwAlert(description: description)
-        }
-        
+        throwAlertIfNeeded(description: viewModel.errorDescription)
+
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(viewModel.blogs, toSection: .blog)
         snapshot.appendItems(viewModel.news, toSection: .news)
@@ -94,10 +91,8 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     func displayMoreNews(viewModel: HomeModels.DisplayMoreNews.ViewModel) {
-        if let description = viewModel.errorDescription {
-            throwAlert(description: description)
-        }
-        
+        throwAlertIfNeeded(description: viewModel.errorDescription)
+
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(viewModel.news, toSection: .news)
         dataSource.apply(snapshot, animatingDifferences: true)
@@ -106,14 +101,13 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     func displayDetail(viewModel: HomeModels.DisplayDetail.ViewModel) {
-        if let description = viewModel.errorDescription {
-            throwAlert(description: description)
-        }
-        
+        throwAlertIfNeeded(description: viewModel.errorDescription)
         router?.routeToDetail()
     }
     
-    private func throwAlert(description: String?) {
+    private func throwAlertIfNeeded(description: String?) {
+        guard let description else { return }
+        
         let alert = UIAlertController(
             title: Constants.alertTitle,
             message: description,
