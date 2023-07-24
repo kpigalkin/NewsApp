@@ -59,21 +59,17 @@ final class DetailViewController: UIViewController {
         view.backgroundColor = .systemGray5
         addSubviews()
         configureConstraints()
-        requestToFetchDetail()
+        interactor?.fetchDetail(request: .init())
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         resizeImageView()
     }
-    
-    deinit {
-        
-    }
 }
 
 extension DetailViewController: DetailDisplayLogic {
-
+    
     // MARK: - Display
     
     func displayDetail(viewModel: Detail.Display.ViewModel) {
@@ -82,12 +78,6 @@ extension DetailViewController: DetailDisplayLogic {
         dateLabel.text = viewModel.publishDate
         summaryLabel.text = viewModel.summary
         titleLabel.text = viewModel.title
-    }
-    
-    // MARK: - Request
-    
-    private func requestToFetchDetail() {
-        interactor?.fetchDetail(request: .init())
     }
 }
 

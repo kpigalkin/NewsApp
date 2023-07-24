@@ -33,6 +33,6 @@ private extension HomeRouter {
     }
 
     func passDataToDetail(source: HomeDataStore, destination: inout DetailDataStore) {
-        destination.itemDetail = source.itemDetail
+        destination.detailContent = source.detailContent
     }
 }

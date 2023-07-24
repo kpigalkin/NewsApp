@@ -7,7 +7,7 @@ enum HomeModels {
             let offset: Int
         }
         struct Response {
-            let news: HomeContentItems?
+            let news: [News]?
             let errorDescription: String?
         }
         struct ViewModel {
@@ -19,8 +19,8 @@ enum HomeModels {
     enum DisplayContent {
         struct Request {}
         struct Response {
-            let blogs: HomeContentItems?
-            let news: HomeContentItems?
+            let blogs: [Blog]?
+            let news: [News]?
             let errorDescription: String?
         }
         struct ViewModel {

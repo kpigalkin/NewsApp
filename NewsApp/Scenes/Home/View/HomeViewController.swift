@@ -79,6 +79,7 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: HomeDisplayLogic {
     
     // MARK: Display & Route
+    
     func displayContent(viewModel: HomeModels.DisplayContent.ViewModel) {
         throwAlertIfNeeded(description: viewModel.errorDescription)
 

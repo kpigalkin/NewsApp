@@ -4,7 +4,7 @@ enum Detail {
     enum Display {
         struct Request {}
         struct Response {
-            let element: DetailModel
+            let content: DetailContent
         }
         struct ViewModel {
             let id: Int
@@ -12,4 +12,9 @@ enum Detail {
             let title, summary, publishDate: String
         }
     }
+}
+
+struct DetailContent {
+    var news: News?
+    var blog: Blog?
 }

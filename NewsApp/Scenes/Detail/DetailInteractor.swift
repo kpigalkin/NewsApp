@@ -5,18 +5,17 @@ protocol DetailBusinessLogic {
 }
 
 protocol DetailDataStore {
-    var itemDetail: DetailModel? { get set }
+    var detailContent: DetailContent? { get set }
 }
 
 final class DetailInteractor: DetailDataStore {
     var presenter: DetailPresentationLogic?
-    var itemDetail: DetailModel?
+    var detailContent: DetailContent?
 }
 
 extension DetailInteractor: DetailBusinessLogic {
     func fetchDetail(request: Detail.Display.Request) {
-        guard let itemDetail else { return }
-        let response = Detail.Display.Response(element: itemDetail)
-        presenter?.presentDetail(response: response)
+        guard let detailContent else { return }
+        presenter?.presentDetail(response: .init(content: detailContent))
     }
 }

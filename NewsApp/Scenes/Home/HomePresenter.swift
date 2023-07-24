@@ -14,15 +14,15 @@ extension HomePresenter: HomePresentationLogic {
 
     func presentContent(response: HomeModels.DisplayContent.Response) {
         viewController?.displayContent(viewModel: .init(
-            news: convertNews(response.news?.results),
-            blogs: convertBlogs(response.blogs?.results),
+            news: convertNews(response.news),
+            blogs: convertBlogs(response.blogs),
             errorDescription: response.errorDescription
         ))
     }
     
     func presentMoreNews(response: HomeModels.DisplayMoreNews.Response) {
         viewController?.displayMoreNews(viewModel: .init(
-            news: convertNews(response.news?.results),
+            news: convertNews(response.news),
             errorDescription: response.errorDescription
         ))
     }
@@ -36,7 +36,7 @@ extension HomePresenter: HomePresentationLogic {
 
 private extension HomePresenter {
     
-    func convertNews(_ items: [DetailModel]?) -> [HomeCollectionItem] {
+    func convertNews(_ items: [News]?) -> [HomeCollectionItem] {
         guard let items else { return [] }
         return items.map {
             HomeCollectionItem(content: .news(configuration: .init(
@@ -53,7 +53,7 @@ private extension HomePresenter {
         }
     }
     
-    func convertBlogs(_ items: [DetailModel]?) -> [HomeCollectionItem] {
+    func convertBlogs(_ items: [Blog]?) -> [HomeCollectionItem] {
         guard let items else { return [] }
         return items.map {
             HomeCollectionItem(content: .blog(configuration: .init(

@@ -10,18 +10,34 @@ final class DetailPresenter {
 
 extension DetailPresenter: DetailPresentationLogic {
     func presentDetail(response: Detail.Display.Response) {
-        let viewModel = Detail.Display.ViewModel(
-            id: response.element.id,
-            url: URL(string: response.element.url),
-            imageURL: URL(string: response.element.imageURL),
-            title: response.element.title,
-            summary: response.element.summary,
-            publishDate: DateFormatter().convertMultipleFormatDate(
-                formats: SpaceFlightNewsEndpoint.dateFormats,
-                from: response.element.date,
-                toFormat: AppConstants.DateFormat.presentingFormat.rawValue
-            )
+        if let blog = response.content.blog {
+            viewController?.displayDetail(viewModel: .init(
+                id: blog.id,
+                url: URL(string: blog.url),
+                imageURL: URL(string: blog.imageURL),
+                title: blog.title,
+                summary: blog.summary,
+                publishDate: convertDate(from: blog.date)
+            ))
+        } else if let news = response.content.news {
+            viewController?.displayDetail(viewModel: .init(
+                id: news.id,
+                url: URL(string: news.url),
+                imageURL: URL(string: news.imageURL),
+                title: news.title,
+                summary: news.summary,
+                publishDate: convertDate(from: news.date)
+            ))
+        }
+    }
+}
+
+private extension DetailPresenter {
+    func convertDate(from stringDate: String) -> String  {
+        return DateFormatter().convertMultipleFormatDate(
+            formats: SpaceFlightNewsEndpoint.dateFormats,
+            from: stringDate,
+            toFormat: AppConstants.DateFormat.presentingFormat.rawValue
         )
-        viewController?.displayDetail(viewModel: viewModel)
     }
 }
