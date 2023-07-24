@@ -1,5 +1,7 @@
 import UIKit
 
+    // MARK: - Protocols
+
 protocol DetailBusinessLogic {
     func fetchDetail(request: Detail.Display.Request)
 }
@@ -8,10 +10,14 @@ protocol DetailDataStore {
     var detailContent: DetailContent? { get set }
 }
 
+    // MARK: - DetailInteractor
+
 final class DetailInteractor: DetailDataStore {
     var presenter: DetailPresentationLogic?
     var detailContent: DetailContent?
 }
+
+    // MARK: - DetailBusinessLogic
 
 extension DetailInteractor: DetailBusinessLogic {
     func fetchDetail(request: Detail.Display.Request) {

@@ -1,6 +1,10 @@
 import UIKit
 
+    // MARK: - LayoutFactory
+
 struct HomeCollectionViewLayoutFactory {
+    
+    // MARK: - Private
     private enum Constants {
         static let newsEstimatedHeight: CGFloat = 500
         static let blogEstimatedHeight: CGFloat = 60
@@ -25,6 +29,30 @@ struct HomeCollectionViewLayoutFactory {
 }
 
 extension HomeCollectionViewLayoutFactory {
+    
+    // MARK: - Blog Layout
+    
+    static func createBlogSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(Constants.blogEstimatedHeight)
+        )
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(Constants.blogEstimatedHeight)
+        )
+
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.interGroupSpacing = Constants.groupSpacing
+        return section
+    }
+    
+    // MARK: - News Layout
+    
     static func createNewsSectionLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
@@ -46,25 +74,6 @@ extension HomeCollectionViewLayoutFactory {
             bottom:  Constants.spacing,
             trailing:  Constants.spacing
         )
-        section.interGroupSpacing = Constants.groupSpacing
-        return section
-    }
-    
-    static func createBlogSectionLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(Constants.blogEstimatedHeight)
-        )
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(Constants.blogEstimatedHeight)
-        )
-
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPagingCentered
         section.interGroupSpacing = Constants.groupSpacing
         return section
     }

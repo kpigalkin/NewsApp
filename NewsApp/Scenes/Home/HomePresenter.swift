@@ -1,14 +1,20 @@
 import UIKit
 
+    // MARK: - Protocols
+
 protocol HomePresentationLogic {
     func presentContent(response: HomeModels.DisplayContent.Response)
     func presentMoreNews(response: HomeModels.DisplayMoreNews.Response)
     func presentDetail(response: HomeModels.DisplayDetail.Response)
 }
 
+    // MARK: - HomePresenter
+
 final class HomePresenter {
     weak var viewController: HomeDisplayLogic?
 }
+
+    // MARK: - HomePresentationLogic
 
 extension HomePresenter: HomePresentationLogic {
 
@@ -34,6 +40,8 @@ extension HomePresenter: HomePresentationLogic {
     }
 }
 
+    // MARK: - Convert
+
 private extension HomePresenter {
     
     func convertNews(_ items: [News]?) -> [HomeCollectionItem] {
@@ -44,11 +52,7 @@ private extension HomePresenter {
                 imageURL: URL(string: $0.imageURL),
                 title: $0.title,
                 summary: $0.summary,
-                date: DateFormatter().convertMultipleFormatDate(
-                    formats: SpaceFlightNewsEndpoint.dateFormats,
-                    from: $0.date,
-                    toFormat: AppConstants.DateFormat.presentingFormat.rawValue
-                )
+                date: convertDate($0.date)
             )))
         }
     }
@@ -62,5 +66,13 @@ private extension HomePresenter {
                 title: $0.title
             )))
         }
+    }
+    
+    func convertDate(_ stringDate: String) -> String  {
+        return DateFormatter().convertMultipleFormatDate(
+            from: SpaceFlightNewsEndpoint.dateFormats,
+            to: AppConstants.DateFormat.toFormat,
+            date: stringDate
+        )
     }
 }

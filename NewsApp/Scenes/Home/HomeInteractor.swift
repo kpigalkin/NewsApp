@@ -1,3 +1,6 @@
+
+    // MARK: - Protocols
+
 protocol HomeBusinessLogic {
     func fetchContent(request: HomeModels.DisplayContent.Request)
     func fetchMoreNews(request: HomeModels.DisplayMoreNews.Request)
@@ -8,6 +11,8 @@ protocol HomeDataStore {
     var detailContent: DetailContent? { get set }
 }
 
+    // MARK: - HomeInteractor
+
 final class HomeInteractor: HomeDataStore {
     var networkWorker: HomeNetworkWorkingLogic?
     var storageWorker: StorageWorkingLogic?
@@ -15,6 +20,8 @@ final class HomeInteractor: HomeDataStore {
     
     var detailContent: DetailContent?
 }
+
+    // MARK: - HomeBusinessLogic
 
 extension HomeInteractor: HomeBusinessLogic {
     @MainActor
@@ -28,8 +35,10 @@ extension HomeInteractor: HomeBusinessLogic {
                 guard let news = try await newsRequest,
                       let blogs = try await blogRequest else { return }
 
-                storageWorker?.saveBlogs(blogs.results)
-                storageWorker?.saveNews(news.results)
+                defer {
+                    storageWorker?.saveBlogs(blogs.results)
+                    storageWorker?.saveNews(news.results)
+                }
 
                 presenter?.presentContent(response: .init(
                     blogs: blogs.results,
@@ -38,13 +47,10 @@ extension HomeInteractor: HomeBusinessLogic {
                 ))
 
             } catch let error as RequestError {
-
-                guard let news = storageWorker?.getNews(),
-                      let blogs = storageWorker?.getBlogs() else { return }
                 
                 presenter?.presentContent(response: .init(
-                    blogs: blogs,
-                    news: news,
+                    blogs: storageWorker?.getBlogs(),
+                    news: storageWorker?.getNews(),
                     errorDescription: error.description
                 ))
                 
@@ -65,7 +71,10 @@ extension HomeInteractor: HomeBusinessLogic {
             guard let news = try await networkWorker?.getNews(offset: request.offset) else {
                 return
             }
-            storageWorker?.saveNews(news.results)
+            
+            defer {
+                storageWorker?.saveNews(news.results)
+            }
             
             let response = HomeModels.DisplayMoreNews.Response(news: news.results, errorDescription: nil)
             presenter?.presentMoreNews(response: response)

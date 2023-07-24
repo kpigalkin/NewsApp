@@ -1,5 +1,7 @@
 import Foundation
 
+    // MARK: - RequestError
+
 enum RequestError: Error {
     case invalidURL
     case decode
@@ -13,7 +15,11 @@ enum RequestError: Error {
     case serviceUnavailable
     case gatewayTimeout
     case other(Int)
+}
 
+extension RequestError {
+    
+    // MARK: - Description
     
     var description: String {
         switch self {
@@ -43,6 +49,8 @@ enum RequestError: Error {
             return "Error with status code: \(statusCode)"
         }
     }
+    
+    // MARK: - Status Code Handling
     
     static func handleResponseError(statusCode: Int) -> RequestError {
         switch statusCode {

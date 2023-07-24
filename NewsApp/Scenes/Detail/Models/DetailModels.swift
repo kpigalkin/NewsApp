@@ -1,6 +1,9 @@
 import UIKit
 
 enum Detail {
+    
+    // MARK: - Display Detail Use Case
+    
     enum Display {
         struct Request {}
         struct Response {
@@ -12,9 +15,4 @@ enum Detail {
             let title, summary, publishDate: String
         }
     }
-}
-
-struct DetailContent {
-    var news: News?
-    var blog: Blog?
 }

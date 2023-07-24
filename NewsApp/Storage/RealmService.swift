@@ -1,20 +1,18 @@
 import RealmSwift
 
+    // MARK: - RealmService
+
 final class RealmService {
+    // MARK: - Static
     static let shared = RealmService()
     
+    // MARK: - Private
     private var realm = try! Realm()
-    
-    private init() {
-        // FIXME: Delete
-        let realm = try! Realm()
-        try! realm.write {
-//            realm.deleteAll()
-        }
-        print("News count: \(realm.objects(NewsObject.self).count)")
-        print("Blogs count: \(realm.objects(BlogObject.self).count)")
-    }
+    private init() {}
 }
+
+    // MARK: - ???
+    // TODO: Protocol implementation
 
 extension RealmService {
     func addObjects<T: Object>(_ objects: [T]) {

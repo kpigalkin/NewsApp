@@ -1,5 +1,7 @@
 import Foundation
 
+    // MARK: - HTTPMethod
+
 enum HTTPMethod: String {
     case delete
     case get

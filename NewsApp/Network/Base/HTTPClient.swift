@@ -17,12 +17,8 @@ extension HTTPClient {
             throw RequestError.invalidURL
         }
         
-        guard let stringUrl = url.description.removingPercentEncoding else {
-            throw RequestError.invalidURL
-        }
-        
-        var request = URLRequest(url: URL(string: stringUrl)!)
-        request.httpMethod = endpoint.method.rawValue
+        var request = URLRequest(url: url)
+        request.httpMethod = endpoint.method.name
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)

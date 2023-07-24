@@ -1,12 +1,12 @@
 import Foundation
 
 extension DateFormatter {
-    func convertMultipleFormatDate(formats: [String],
-                                   from dateString: String,
-                                   toFormat: String,
+    func convertMultipleFormatDate(from fromFormats: [String],
+                                   to toFormat: String,
+                                   date dateString: String,
                                    localeID: String = "en_US") -> String {
         var date: Date?
-        formats.forEach {
+        from fromFormats.forEach {
             dateFormat = $0
             if let tempDate = self.date(from: dateString) {
                 date = tempDate
@@ -15,7 +15,7 @@ extension DateFormatter {
         
         guard let date else { return dateString }
     
-        self.dateFormat = toFormat
+        self.dateFormat = to toFormat
         self.locale = Locale(identifier: localeID)
         return self.string(from: date)
     }

@@ -1,12 +1,18 @@
 import UIKit
 
+    // MARK: - Protocols
+
 protocol DetailPresentationLogic {
     func presentDetail(response: Detail.Display.Response)
 }
 
+    // MARK: - DetailPresenter
+
 final class DetailPresenter {
     weak var viewController: DetailDisplayLogic?
 }
+
+    // MARK: - DetailPresentationLogic
 
 extension DetailPresenter: DetailPresentationLogic {
     func presentDetail(response: Detail.Display.Response) {
@@ -17,7 +23,7 @@ extension DetailPresenter: DetailPresentationLogic {
                 imageURL: URL(string: blog.imageURL),
                 title: blog.title,
                 summary: blog.summary,
-                publishDate: convertDate(from: blog.date)
+                publishDate: convertDate(blog.date)
             ))
         } else if let news = response.content.news {
             viewController?.displayDetail(viewModel: .init(
@@ -26,18 +32,20 @@ extension DetailPresenter: DetailPresentationLogic {
                 imageURL: URL(string: news.imageURL),
                 title: news.title,
                 summary: news.summary,
-                publishDate: convertDate(from: news.date)
+                publishDate: convertDate(news.date)
             ))
         }
     }
 }
 
+    // MARK: - Private
+
 private extension DetailPresenter {
-    func convertDate(from stringDate: String) -> String  {
+    func convertDate(_ stringDate: String) -> String  {
         return DateFormatter().convertMultipleFormatDate(
-            formats: SpaceFlightNewsEndpoint.dateFormats,
-            from: stringDate,
-            toFormat: AppConstants.DateFormat.presentingFormat.rawValue
+            from: SpaceFlightNewsEndpoint.dateFormats,
+            to: AppConstants.DateFormat.toFormat,
+            date: stringDate
         )
     }
 }

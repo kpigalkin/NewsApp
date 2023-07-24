@@ -1,4 +1,5 @@
-import Foundation
+
+    // MARK: - Protocols
 
 protocol HomeNetworkWorkingLogic {
     func getBlogs() async throws -> BlogItems
@@ -7,7 +8,13 @@ protocol HomeNetworkWorkingLogic {
     func getNewsDetail(id: Int) async throws -> News
 }
 
-struct HomeNetworkWorker: HTTPClient, HomeNetworkWorkingLogic {
+    // MARK: - HomeNetworkWorker
+
+final class HomeNetworkWorker {}
+
+    // MARK: - HomeNetworkWorkingLogic & HTTPClient
+
+extension HomeNetworkWorker: HomeNetworkWorkingLogic, HTTPClient {
     func getNews(offset: Int) async throws -> NewsItems {
         return try await sendRequest(endpoint: SpaceFlightNewsEndpoint.news(offset: offset),
                                      responseModel: NewsItems.self)

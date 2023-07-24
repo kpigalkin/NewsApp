@@ -1,20 +1,22 @@
 import UIKit
 import Kingfisher
 
+    // MARK: - Protocols
+
 protocol DetailDisplayLogic: AnyObject {
     func displayDetail(viewModel: Detail.Display.ViewModel)
 }
+
+    // MARK: - DetailViewController
 
 final class DetailViewController: UIViewController {
     static let cellReuseIdentifier = String(describing: DetailViewController.self)
 
     // MARK: - Public
-    
     var interactor: DetailBusinessLogic?
     var router: (DetailRoutingLogic & DetailDataPassing)?
     
     // MARK: - Private
-    
     private enum Constants {
         static let animationDuration: CGFloat = 0.7
         static let aspectRatio: CGFloat = 10 / 16
@@ -53,7 +55,7 @@ final class DetailViewController: UIViewController {
     private lazy var dateLabel = UILabel(style: .footnote)
             
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray5
@@ -68,10 +70,10 @@ final class DetailViewController: UIViewController {
     }
 }
 
+    // MARK: - DetailDisplayLogic
+
 extension DetailViewController: DetailDisplayLogic {
-    
-    // MARK: - Display
-    
+        
     func displayDetail(viewModel: Detail.Display.ViewModel) {
         imageView.kf.setImage(with: viewModel.imageURL, targetWidth: .full)
         linkTextView.attributedText = createLink(from: viewModel.url)
@@ -81,10 +83,10 @@ extension DetailViewController: DetailDisplayLogic {
     }
 }
 
+    // MARK: - User Interface
+
 private extension DetailViewController {
     
-    // MARK: - Subviews & Constraints
-
     func addSubviews() {
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
@@ -133,9 +135,7 @@ private extension DetailViewController {
             self.imageView.layoutIfNeeded()
         }
     }
-    
-    // MARK: - Link
-    
+        
     func createLink(from url: URL?) -> NSMutableAttributedString? {
         guard let url else { return nil }
         

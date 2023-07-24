@@ -2,6 +2,8 @@ import Foundation
 import UIKit
 import Kingfisher
 
+    // MARK: - NewsContentConfiguration
+
 struct NewsContentConfiguration: UIContentConfiguration {
     let id: Int
     let imageURL: URL?
@@ -16,13 +18,18 @@ struct NewsContentConfiguration: UIContentConfiguration {
     }
 }
 
+    // MARK: - NewsContentView
+
 final class NewsContentView: UIView, UIContentView {
+    
+    // MARK: - Public
     var configuration: UIContentConfiguration {
         didSet {
             configure()
         }
     }
     
+    // MARK: - Private
     private enum Constants {
         static let aspectRatio: CGFloat = 10 / 16
         static let summaryLinesCount: Int = 3
@@ -48,6 +55,8 @@ final class NewsContentView: UIView, UIContentView {
         return view
     }()
     
+    // MARK: - Lifecycle
+    
     init(with contentConfiguration: NewsContentConfiguration) {
         configuration = contentConfiguration
         super.init(frame: .zero)
@@ -59,6 +68,8 @@ final class NewsContentView: UIView, UIContentView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+    // MARK: - User Interface
 
 private extension NewsContentView {
     func configure() {

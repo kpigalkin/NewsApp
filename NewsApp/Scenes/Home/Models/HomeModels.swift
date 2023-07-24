@@ -2,6 +2,8 @@ import UIKit
 
 enum HomeModels {
     
+    // MARK: - Display More News UseCase
+    
     enum DisplayMoreNews {
         struct Request {
             let offset: Int
@@ -15,6 +17,8 @@ enum HomeModels {
             let errorDescription: String?
         }
     }
+    
+    // MARK: - Display News & Blogs Use Case
     
     enum DisplayContent {
         struct Request {}
@@ -30,6 +34,8 @@ enum HomeModels {
         }
     }
     
+    // MARK: - Display Detail use case
+
     enum DisplayDetail {
         struct Request {
             let id: Int

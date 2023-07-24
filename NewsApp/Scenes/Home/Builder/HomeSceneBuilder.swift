@@ -1,12 +1,8 @@
-import Foundation
 import UIKit
 
-protocol HomeBuildable {
-    func build() -> UIViewController
-}
-
-struct HomeBuilder: HomeBuildable {
-    func build() -> UIViewController {
+struct HomeSceneBuilder: SceneBuildable {
+    
+    static func build() -> UIViewController {
         let viewController = HomeViewController()
         let interactor = HomeInteractor()
         let presenter = HomePresenter()
@@ -14,6 +10,7 @@ struct HomeBuilder: HomeBuildable {
         let networkWorker = HomeNetworkWorker()
         let storageWorker = StorageWorker()
         let storageService = RealmService.shared
+        
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter

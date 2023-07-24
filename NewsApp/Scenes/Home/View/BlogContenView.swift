@@ -2,6 +2,8 @@ import Foundation
 import UIKit
 import Kingfisher
 
+    // MARK: - BlogContentConfiguration
+
 struct BlogContentConfiguration: UIContentConfiguration {
     let id: Int
     let imageURL: URL?
@@ -16,13 +18,18 @@ struct BlogContentConfiguration: UIContentConfiguration {
     }
 }
 
+    // MARK: - BlogContentView
+
 final class BlogContentView: UIView, UIContentView {
+    
+    // MARK: - Public
     var configuration: UIContentConfiguration {
         didSet {
             configure()
         }
     }
     
+    // MARK: - Private
     private enum Constants {
         static let heightPadding: CGFloat = 25
         static let imageSizeMultiplier: CGFloat = 0.17
@@ -40,7 +47,9 @@ final class BlogContentView: UIView, UIContentView {
     }()
     
     private var titleLabel = UILabel(style: .body, linesCount: Constants.titleLinesCount)
-            
+    
+    // MARK: - Lifecycle
+
     init(with contentConfiguration: BlogContentConfiguration) {
         configuration = contentConfiguration
         super.init(frame: .zero)
@@ -52,6 +61,8 @@ final class BlogContentView: UIView, UIContentView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+    // MARK: - User Interface
 
 private extension BlogContentView {
     func configure() {

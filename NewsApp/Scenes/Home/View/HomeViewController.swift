@@ -1,21 +1,23 @@
 import UIKit
 
+    // MARK: - Protocols
+
 protocol HomeDisplayLogic: AnyObject {
     func displayContent(viewModel: HomeModels.DisplayContent.ViewModel)
     func displayMoreNews(viewModel: HomeModels.DisplayMoreNews.ViewModel)
     func displayDetail(viewModel: HomeModels.DisplayDetail.ViewModel)
 }
 
+    // MARK: - HomeViewController
+
 final class HomeViewController: UIViewController {
     static let cellReuseIdentifier = String(describing: HomeViewController.self)
     
     // MARK: - Public
-    
     var interactor: HomeBusinessLogic?
     var router: (HomeRoutingLogic & HomeDataPassing)?
     
     // MARK: - Private
-    
     private enum Constants {
         static let alertTitle = "Error occurs"
         static let alertText = "Got it"
@@ -76,10 +78,12 @@ final class HomeViewController: UIViewController {
     }
 }
 
+    // MARK: - HomeDisplayLogic
+
 extension HomeViewController: HomeDisplayLogic {
     
-    // MARK: Display & Route
-    
+    // MARK: Display
+
     func displayContent(viewModel: HomeModels.DisplayContent.ViewModel) {
         throwAlertIfNeeded(description: viewModel.errorDescription)
 
@@ -104,18 +108,6 @@ extension HomeViewController: HomeDisplayLogic {
     func displayDetail(viewModel: HomeModels.DisplayDetail.ViewModel) {
         throwAlertIfNeeded(description: viewModel.errorDescription)
         router?.routeToDetail()
-    }
-    
-    private func throwAlertIfNeeded(description: String?) {
-        guard let description else { return }
-        
-        let alert = UIAlertController(
-            title: Constants.alertTitle,
-            message: description,
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: Constants.alertText, style: .cancel))
-        present(alert, animated: true)
     }
     
     // MARK: Request
@@ -168,14 +160,43 @@ extension HomeViewController: UICollectionViewDataSourcePrefetching {
     }
 }
 
+    // MARK: - UserInterface & DiffableDataSource
+
 private extension HomeViewController {
     
-    // MARK: - UICollectionViewDiffableDataSource
+    func throwAlertIfNeeded(description: String?) {
+        guard let description else { return }
+        
+        let alert = UIAlertController(
+            title: Constants.alertTitle,
+            message: description,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: Constants.alertText, style: .cancel))
+        present(alert, animated: true)
+    }
+    
+    func addSubviews() {
+        view.addSubview(collectionView)
+        collectionView.refreshControl = refreshControl
+    }
+        
+    func configureConstraints() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
     
     func makeDataSource() -> UICollectionViewDiffableDataSource<HomeSection, HomeCollectionItem> {
         let dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeCollectionItem>(collectionView: collectionView) {
             [weak self] collectionView, indexPath, item in
+            
             guard let self else { return .init(frame: .zero) }
+            
             switch item.content {
             case .blog(configuration: let configuration):
                 return collectionView.dequeueConfiguredReusableCell(
@@ -198,24 +219,5 @@ private extension HomeViewController {
         var snapshot = dataSource.snapshot()
         snapshot.appendSections([.blog, .news])
         dataSource.apply(snapshot)
-    }
-    
-    // MARK: - Subviews
-    
-    func addSubviews() {
-        view.addSubview(collectionView)
-        collectionView.refreshControl = refreshControl
-    }
-    
-    // MARK: - Constraints
-    
-    func configureConstraints() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
 }

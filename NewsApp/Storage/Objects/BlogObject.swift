@@ -1,5 +1,7 @@
 import RealmSwift
 
+    // MARK: - BlogObject
+
 @objcMembers
 final class BlogObject: Object {
     dynamic var id = Int()
@@ -14,6 +16,8 @@ final class BlogObject: Object {
     }
 }
 
+    // MARK: - BlogObject -> Blog
+
 extension BlogObject {
     var model: Blog {
         .init(id: id,
@@ -25,6 +29,8 @@ extension BlogObject {
         )
     }
 }
+
+    // MARK: - Results<BlogObject> -> [Blog]
 
 extension Results where Element == BlogObject {
     var models: [Blog] {

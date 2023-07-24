@@ -1,6 +1,7 @@
-/// Open Space Flight News API [SNAPI] --- https://api.spaceflightnewsapi.net/v4/docs/
-
 import Foundation
+
+    // MARK: - SpaceFlightNewsEndpoint
+    /// Open Space Flight News API [SNAPI] --- https://api.spaceflightnewsapi.net/v4/docs/
 
 enum SpaceFlightNewsEndpoint {
     case blogDetail(id: Int)
@@ -8,6 +9,8 @@ enum SpaceFlightNewsEndpoint {
     case news(offset: Int)
     case blogs
 }
+
+    // MARK: - Endpoint
 
 extension SpaceFlightNewsEndpoint: Endpoint {
     var method: HTTPMethod {
@@ -38,9 +41,9 @@ extension SpaceFlightNewsEndpoint: Endpoint {
         case .newsDetail(id: let id):
             return "/v4/articles/" + "\(id)"
         case .blogs:
-            return "/v4/blogs"
+            return "/v4/blogs/"
         case .news:
-            return "/v4/articles"
+            return "/v4/articles/"
         }
     }
     
@@ -56,7 +59,7 @@ extension SpaceFlightNewsEndpoint: Endpoint {
     }
 }
 
-// MARK: - Date formats
+    // MARK: - Date formats
 
 extension SpaceFlightNewsEndpoint {
     static var dateFormats: [String] {

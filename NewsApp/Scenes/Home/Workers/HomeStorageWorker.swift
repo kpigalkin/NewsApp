@@ -1,6 +1,8 @@
 import Foundation
 import RealmSwift
 
+    // MARK: - Protocols
+
 protocol StorageWorkingLogic {
     func getNews() -> [News]
     func getBlogs() -> [Blog]
@@ -11,17 +13,21 @@ protocol StorageWorkingLogic {
     func saveBlogs(_ blogs: [Blog])
 }
 
+    // MARK: - StorageWorker
+
 final class StorageWorker {
     var storageService: RealmService?
 }
 
+    // MARK: - StorageWorkingLogic
+
 extension StorageWorker: StorageWorkingLogic {
     func getNews() -> [News] {
-        storageService?.getAllObjects(NewsObject.self).models ?? []
+        return storageService?.getAllObjects(NewsObject.self).models ?? []
     }
     
     func getBlogs() -> [Blog] {
-        storageService?.getAllObjects(BlogObject.self).models ?? []
+        return storageService?.getAllObjects(BlogObject.self).models ?? []
     }
     
     func getNewsDetail(with id: Int) throws -> News? {
@@ -37,7 +43,7 @@ extension StorageWorker: StorageWorkingLogic {
         }
         return object.model
     }
-    
+        
     func saveNews(_ news: [News]) {
         storageService?.addObjects(news.objects)
     }

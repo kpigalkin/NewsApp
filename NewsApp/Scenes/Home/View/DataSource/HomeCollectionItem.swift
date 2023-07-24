@@ -1,5 +1,7 @@
 import UIKit
 
+    // MARK: - HomeCollectionItem
+
 struct HomeCollectionItem {
     let uuid = UUID()
     let content: ItemType
@@ -8,6 +10,8 @@ struct HomeCollectionItem {
         self.content = content
     }
 }
+
+    // MARK: - Hashable
 
 extension HomeCollectionItem: Hashable {
     enum ItemType {

@@ -1,8 +1,12 @@
 import Foundation
 
+    // MARK: - BlogItems
+
 struct BlogItems: Decodable {
     let results: [Blog]
 }
+
+    // MARK: - Blog
 
 struct Blog {
     let id: Int
@@ -21,6 +25,8 @@ extension Blog: Decodable {
     }
 }
 
+    // MARK: - Blog -> BlogObject
+
 extension Blog {
     var object: BlogObject {
         let object = BlogObject()
@@ -33,6 +39,8 @@ extension Blog {
         return object
     }
 }
+
+    // MARK: - [Blog] -> [BlogObject]
 
 extension Array where Element == Blog {
     var objects: [BlogObject] {

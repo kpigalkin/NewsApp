@@ -1,5 +1,7 @@
 import UIKit
 
+    // MARK: - Protocols
+
 protocol HomeRoutingLogic {
     func routeToDetail()
 }
@@ -8,14 +10,18 @@ protocol HomeDataPassing {
     var dataStore: HomeDataStore? { get }
 }
 
+    // MARK: - HomeRouter
+
 final class HomeRouter: HomeDataPassing {
     weak var viewController: HomeViewController?
     var dataStore: HomeDataStore?
 }
 
+    // MARK: - HomeRoutingLogic
+
 extension HomeRouter: HomeRoutingLogic {
     func routeToDetail() {        
-        guard let destinationVC = DetailBuilder().build() as? DetailViewController,
+        guard let destinationVC = DetailSceneBuilder.build() as? DetailViewController,
               var detailsDataStore = destinationVC.router?.dataStore,
               let viewController,
               let dataStore
@@ -25,6 +31,8 @@ extension HomeRouter: HomeRoutingLogic {
         navigateToDetail(source: viewController, destination: destinationVC)
     }
 }
+
+    // MARK: - Navigation & data passing
 
 private extension HomeRouter {
     func navigateToDetail(source: HomeViewController, destination: DetailViewController) {
