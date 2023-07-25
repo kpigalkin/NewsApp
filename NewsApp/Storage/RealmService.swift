@@ -1,7 +1,5 @@
 import RealmSwift
 
-    // MARK: - RealmService
-
 final class RealmService {
     // MARK: - Static
     static let shared = RealmService()
@@ -10,9 +8,6 @@ final class RealmService {
     private var realm = try! Realm()
     private init() {}
 }
-
-    // MARK: - ???
-    // TODO: Protocol implementation
 
 extension RealmService {
     func addObjects<T: Object>(_ objects: [T]) {

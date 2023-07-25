@@ -5,8 +5,7 @@ enum AppConstants {
     // MARK: - ImageWidthTarget
     
     enum ImageWidthTarget: CGFloat {
-        case smallPreview = 120
-        case preview = 350
+        case preview = 150
         case full = 800
     }
     

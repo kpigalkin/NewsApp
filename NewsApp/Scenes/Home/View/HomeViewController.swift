@@ -11,14 +11,13 @@ protocol HomeDisplayLogic: AnyObject {
     // MARK: - HomeViewController
 
 final class HomeViewController: UIViewController {
-    static let cellReuseIdentifier = String(describing: HomeViewController.self)
-    
     // MARK: - Public
     var interactor: HomeBusinessLogic?
     var router: (HomeRoutingLogic & HomeDataPassing)?
     
     // MARK: - Private
     private enum Constants {
+        static let cellReuseIdentifier = String(describing: HomeViewController.self)
         static let alertTitle = "Error occurs"
         static let alertText = "Got it"
         static let refreshText = "Updating"
@@ -43,7 +42,12 @@ final class HomeViewController: UIViewController {
         )
         view.register(
             UICollectionViewCell.self,
-            forCellWithReuseIdentifier: HomeViewController.cellReuseIdentifier
+            forCellWithReuseIdentifier: Constants.cellReuseIdentifier
+        )
+        view.register(
+            SectionHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: SectionHeaderView.reuseIdentifier
         )
         view.delegate = self
         view.prefetchDataSource = self
@@ -70,7 +74,7 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .systemGray5
         createSections()
         addSubviews()
         configureConstraints()
@@ -184,9 +188,9 @@ private extension HomeViewController {
     func configureConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -212,7 +216,24 @@ private extension HomeViewController {
                 )
             }
         }
+        
+        dataSource.supplementaryViewProvider = { [unowned self] collectionView, elementKind, indexPath in
+            return self.makeDataSourceSupplementaryProvider(collectionView: collectionView, elementKind: elementKind, indexPath: indexPath)
+        }
         return dataSource
+    }
+    
+    func makeDataSourceSupplementaryProvider(collectionView: UICollectionView, elementKind: String, indexPath: IndexPath) -> UICollectionReusableView {
+        let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind,
+                                                                                withReuseIdentifier: SectionHeaderView.reuseIdentifier,
+                                                                                for: indexPath)
+        guard let headerView = supplementaryView as? SectionHeaderView,
+              let section = HomeSection(rawValue: indexPath.section)
+        else {
+            return .init(frame: .zero)
+        }
+        headerView.configure(with: section)
+        return headerView
     }
     
     func createSections() {

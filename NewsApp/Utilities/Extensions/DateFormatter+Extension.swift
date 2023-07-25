@@ -6,7 +6,7 @@ extension DateFormatter {
                                    date dateString: String,
                                    localeID: String = "en_US") -> String {
         var date: Date?
-        from fromFormats.forEach {
+        fromFormats.forEach {
             dateFormat = $0
             if let tempDate = self.date(from: dateString) {
                 date = tempDate
@@ -15,7 +15,7 @@ extension DateFormatter {
         
         guard let date else { return dateString }
     
-        self.dateFormat = to toFormat
+        self.dateFormat = toFormat
         self.locale = Locale(identifier: localeID)
         return self.string(from: date)
     }

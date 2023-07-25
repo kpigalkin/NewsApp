@@ -36,7 +36,7 @@ extension HomeRouter: HomeRoutingLogic {
 
 private extension HomeRouter {
     func navigateToDetail(source: HomeViewController, destination: DetailViewController) {
-        destination.sheetPresentationController?.detents = [.medium()]
+//        destination.sheetPresentationController?.detents = [.medium()]
         source.present(destination, animated: true)
     }
 

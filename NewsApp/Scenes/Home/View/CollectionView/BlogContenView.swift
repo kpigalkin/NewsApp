@@ -31,12 +31,20 @@ final class BlogContentView: UIView, UIContentView {
     
     // MARK: - Private
     private enum Constants {
-        static let heightPadding: CGFloat = 25
-        static let imageSizeMultiplier: CGFloat = 0.17
+        static let bigSpacing: CGFloat = 25
+        static let spacing: CGFloat = 12
+
+        static let imageSide: CGFloat = 70
         static let titleLinesCount: Int = 1
-        static let padding: CGFloat = 18
         static let cornerRadius: CGFloat = 12
     }
+    
+    private var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray4
+        view.layer.cornerRadius = Constants.cornerRadius
+        return view
+    }()
     
     private var imageView: UIImageView = {
         let view = UIImageView()
@@ -67,33 +75,39 @@ final class BlogContentView: UIView, UIContentView {
 private extension BlogContentView {
     func configure() {
         guard let content = configuration as? BlogContentConfiguration else { return }
-        imageView.kf.setImage(with: content.imageURL, targetWidth: .smallPreview)
+        imageView.kf.setImage(with: content.imageURL, targetWidth: .preview)
         titleLabel.text = content.title
     }
     
     func addSubviews() {
+        addSubview(backgroundView)
         addSubview(titleLabel)
         addSubview(imageView)
     }
     
     func configureConstraints() {
         [
+            backgroundView,
             imageView,
             titleLabel,
         ].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         NSLayoutConstraint.activate([
-            
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Constants.imageSizeMultiplier),
-            imageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: Constants.imageSizeMultiplier),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.spacing),
+            imageView.heightAnchor.constraint(equalToConstant: Constants.imageSide),
+            imageView.widthAnchor.constraint(equalToConstant: Constants.imageSide),
             imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.heightPadding),
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Constants.padding),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.heightPadding),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.heightPadding),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.bigSpacing),
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Constants.spacing),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.bigSpacing),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.bigSpacing),
+            
+            backgroundView.topAnchor.constraint(equalTo: imageView.topAnchor, constant: -Constants.spacing),
+            backgroundView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: -Constants.spacing),
+            backgroundView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: Constants.spacing),
+            backgroundView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.spacing)
         ])
     }
 }

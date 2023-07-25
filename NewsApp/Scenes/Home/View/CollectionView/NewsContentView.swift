@@ -31,25 +31,40 @@ final class NewsContentView: UIView, UIContentView {
     
     // MARK: - Private
     private enum Constants {
-        static let aspectRatio: CGFloat = 10 / 16
-        static let summaryLinesCount: Int = 3
-        static let padding: CGFloat = 10
+        static let aspectRatio: CGFloat = 11 / 16
+        static let summaryLinesCount: Int = 2
+        static let cornerRadius: CGFloat = 20
+        static let bigSpacing: CGFloat = 16
+        static let spacing: CGFloat = 8
     }
     
+    private var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray4
+        view.layer.cornerRadius = Constants.cornerRadius
+        return view
+    }()
+    
     private var titleLabel = UILabel(style: .title2)
-    private var summaryLabel = UILabel(style: .body, linesCount: Constants.summaryLinesCount)
-    private var dateLabel = UILabel(style: .footnote)
+
+    private var dateLabel: UILabel = {
+        let label = UILabel(style: .callout)
+        label.textAlignment = .right
+        return label
+    }()
+    
     private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = Constants.cornerRadius
         return imageView
     }()
     
     private var textStackView: UIStackView = {
         let view = UIStackView()
         view.distribution = .fill
-        view.spacing = Constants.padding
+        view.spacing = Constants.spacing
         view.axis = .vertical
         view.alignment = .fill
         return view
@@ -74,17 +89,16 @@ final class NewsContentView: UIView, UIContentView {
 private extension NewsContentView {
     func configure() {
         guard let content = configuration as? NewsContentConfiguration else { return }
-        imageView.kf.setImage(with: content.imageURL, targetWidth: .preview)
-        summaryLabel.text = content.summary
+        imageView.kf.setImage(with: content.imageURL, targetWidth: .full)
         titleLabel.text = content.title
         dateLabel.text = content.date
     }
     
     func addSubviews() {
+        addSubview(backgroundView)
         addSubview(imageView)
         addSubview(textStackView)
         textStackView.addArrangedSubview(titleLabel)
-        textStackView.addArrangedSubview(summaryLabel)
         textStackView.addArrangedSubview(dateLabel)
     }
     
@@ -93,21 +107,26 @@ private extension NewsContentView {
             imageView,
             textStackView,
             titleLabel,
-            summaryLabel,
-            dateLabel
+            dateLabel,
+            backgroundView
         ].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.padding),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.padding),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: Constants.aspectRatio),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: Constants.aspectRatio),
 
-            textStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.padding),
-            textStackView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-            textStackView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            textStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            textStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.bigSpacing),
+            textStackView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: Constants.bigSpacing),
+            textStackView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -Constants.bigSpacing),
+            textStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.spacing),
+            
+            backgroundView.topAnchor.constraint(equalTo: imageView.centerYAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
 }

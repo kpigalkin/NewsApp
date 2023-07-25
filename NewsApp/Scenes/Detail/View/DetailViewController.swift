@@ -18,9 +18,10 @@ final class DetailViewController: UIViewController {
     
     // MARK: - Private
     private enum Constants {
-        static let animationDuration: CGFloat = 0.7
+        static let animationDuration: CGFloat = 0.5
         static let aspectRatio: CGFloat = 10 / 16
         static let heightPadding: CGFloat = 25
+        static let cornerRadius: CGFloat = 20
         static let padding: CGFloat = 10
     }
     
@@ -38,6 +39,7 @@ final class DetailViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = Constants.cornerRadius
         return imageView
     }()
     
@@ -55,9 +57,10 @@ final class DetailViewController: UIViewController {
     private lazy var dateLabel = UILabel(style: .footnote)
             
     // MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        sheetPresentationController?.detents = [.medium(), .large()]
         view.backgroundColor = .systemGray5
         addSubviews()
         configureConstraints()
