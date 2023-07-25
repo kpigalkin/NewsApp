@@ -51,7 +51,6 @@ private extension HomePresenter {
                 id: $0.id,
                 imageURL: URL(string: $0.imageURL),
                 title: $0.title,
-                summary: $0.summary,
                 date: convertDate($0.date)
             )))
         }

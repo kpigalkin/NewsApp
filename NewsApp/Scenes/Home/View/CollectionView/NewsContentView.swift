@@ -7,7 +7,7 @@ import Kingfisher
 struct NewsContentConfiguration: UIContentConfiguration {
     let id: Int
     let imageURL: URL?
-    let title, summary, date: String
+    let title, date: String
     
     func makeContentView() -> UIView & UIContentView {
         NewsContentView(with: self)
