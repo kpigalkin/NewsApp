@@ -6,6 +6,7 @@ final class SectionHeaderView: UICollectionReusableView {
     private enum Constants {
         static let leadingSpacing: CGFloat = 28
         static let bottomSpacing: CGFloat = 11
+        static let cornerRadius: CGFloat = 14
     }
     private lazy var nameLabel = UILabel(style: .title1)
     
@@ -13,7 +14,7 @@ final class SectionHeaderView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemGray5
+        setup()
         addSubviews()
         configureConstraints()
     }
@@ -27,18 +28,19 @@ final class SectionHeaderView: UICollectionReusableView {
 
 extension SectionHeaderView {
     func configure(with section: HomeSection) {
-        switch section {
-        case .blog:
-            nameLabel.text = "Latests blogs"
-        case .news:
-            nameLabel.text = "News"
-        }
+        nameLabel.text = section.name
     }
 }
 
     // MARK: - User Interface
 
 private extension SectionHeaderView {
+    func setup() {
+        backgroundColor = .systemGray5
+        layer.cornerRadius = Constants.cornerRadius
+        layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+    }
+    
     func addSubviews() {
         addSubview(nameLabel)
     }
