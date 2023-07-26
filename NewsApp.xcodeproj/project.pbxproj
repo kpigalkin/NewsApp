@@ -199,12 +199,12 @@
 			isa = PBXGroup;
 			children = (
 				DBAB50BC2A60564F00DE6866 /* Builder */,
-				DBE2FABC2A6E8220005F8AFB /* Workers */,
-				DBD103942A65BDB000077781 /* Models */,
 				DBAB509F2A5EABFA00DE6866 /* View */,
 				DBAB50892A5DE3FC00DE6866 /* HomeInteractor.swift */,
 				DBAB50842A5DE3FC00DE6866 /* HomePresenter.swift */,
 				DBAB50862A5DE3FC00DE6866 /* HomeRouter.swift */,
+				DBE2FABC2A6E8220005F8AFB /* Workers */,
+				DBD103942A65BDB000077781 /* Models */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -254,11 +254,11 @@
 			isa = PBXGroup;
 			children = (
 				DBAB50BD2A60568D00DE6866 /* Builder */,
-				DBDE6BDC2A674710000FC287 /* Models */,
 				DBDE6BDD2A674733000FC287 /* View */,
 				DBAB50C32A6056B800DE6866 /* DetailInteractor.swift */,
 				DBAB50BE2A6056B800DE6866 /* DetailPresenter.swift */,
 				DBAB50C02A6056B800DE6866 /* DetailRouter.swift */,
+				DBDE6BDC2A674710000FC287 /* Models */,
 			);
 			path = Detail;
 			sourceTree = "<group>";

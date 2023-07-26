@@ -1,3 +1,4 @@
+import Foundation
 
     // MARK: - Protocols
 
@@ -15,23 +16,35 @@ final class HomeNetworkWorker {}
     // MARK: - HomeNetworkWorkingLogic & HTTPClient
 
 extension HomeNetworkWorker: HomeNetworkWorkingLogic, HTTPClient {
+    
     func getNews(offset: Int) async throws -> NewsItems {
-        return try await sendRequest(endpoint: SpaceFlightNewsEndpoint.news(offset: offset),
-                                     responseModel: NewsItems.self)
+        let data = try await sendRequest(endpoint: SpaceFlightNewsEndpoint.news(offset: offset))
+        return try decode(NewsItems.self, from: data)
     }
     
     func getBlogs() async throws -> BlogItems {
-        return try await sendRequest(endpoint: SpaceFlightNewsEndpoint.blogs,
-                                     responseModel: BlogItems.self)
+        let data = try await sendRequest(endpoint: SpaceFlightNewsEndpoint.blogs)
+        return try decode(BlogItems.self, from: data)
     }
     
     func getBlogDetail(id: Int) async throws -> Blog {
-        return try await sendRequest(endpoint: SpaceFlightNewsEndpoint.blogDetail(id: id),
-                                     responseModel: Blog.self)
+        let data = try await sendRequest(endpoint: SpaceFlightNewsEndpoint.blogDetail(id: id))
+        return try decode(Blog.self, from: data)
     }
     
     func getNewsDetail(id: Int) async throws -> News {
-        return try await sendRequest(endpoint: SpaceFlightNewsEndpoint.newsDetail(id: id),
-                                     responseModel: News.self)
+        let data = try await sendRequest(endpoint: SpaceFlightNewsEndpoint.newsDetail(id: id))
+        return try decode(News.self, from: data)
+    }
+}
+
+    // MARK: - Decode
+
+private extension HomeNetworkWorker {
+    func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+        guard let decodedData = try? JSONDecoder().decode(type.self, from: data) else {
+            throw RequestError.decode
+        }
+        return decodedData
     }
 }

@@ -1,11 +1,11 @@
 import Foundation
 
 protocol HTTPClient {
-    func sendRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async throws -> T
+    func sendRequest(endpoint: Endpoint) async throws -> Data
 }
 
 extension HTTPClient {
-    func sendRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async throws -> T {
+    func sendRequest(endpoint: Endpoint) async throws -> Data {
         
         var components = URLComponents()
         components.scheme = endpoint.scheme
@@ -29,16 +29,12 @@ extension HTTPClient {
             
             switch reponse.statusCode {
             case 200...299:
-                guard let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
-                    throw RequestError.decode
-                }
-                return decodedData
+                return data
             default:
-                throw RequestError.handleResponseError(statusCode:reponse.statusCode)
+                throw RequestError.handleResponseError(statusCode: reponse.statusCode)
             }
         } catch URLError.Code.notConnectedToInternet {
             throw RequestError.offline
         }
-
     }
 }
