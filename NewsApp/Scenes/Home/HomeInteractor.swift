@@ -32,8 +32,12 @@ extension HomeInteractor: HomeBusinessLogic {
                 async let newsRequest = networkWorker?.getNews(offset: .zero)
                 async let blogRequest = networkWorker?.getBlogs()
                 
-                guard let news = try await newsRequest,
-                      let blogs = try await blogRequest else { return }
+                guard
+                    let news = try await newsRequest,
+                    let blogs = try await blogRequest
+                else {
+                    return
+                }
 
                 defer {
                     storageWorker?.saveBlogs(blogs.results)

@@ -21,11 +21,14 @@ final class HomeRouter: HomeDataPassing {
 
 extension HomeRouter: HomeRoutingLogic {
     func routeToDetail() {        
-        guard let destinationVC = DetailSceneConfigurator.configure() as? DetailViewController,
-              var detailsDataStore = destinationVC.router?.dataStore,
-              let viewController,
-              let dataStore
-        else { return }
+        guard
+            let destinationVC = DetailSceneConfigurator.configure() as? DetailViewController,
+            var detailsDataStore = destinationVC.router?.dataStore,
+            let viewController,
+            let dataStore
+        else {
+            return
+        }
               
         passDataToDetail(source: dataStore, destination: &detailsDataStore)
         navigateToDetail(source: viewController, destination: destinationVC)

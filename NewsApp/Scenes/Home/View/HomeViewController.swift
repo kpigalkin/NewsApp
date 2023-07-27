@@ -145,8 +145,9 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard let lastIndex = indexPaths.last,
-              lastIndex.section == HomeSection.news.rawValue
+        guard
+            let lastIndex = indexPaths.last,
+            lastIndex.section == HomeSection.news.rawValue
         else {
             return
         }
@@ -221,11 +222,14 @@ private extension HomeViewController {
     }
     
     func makeDataSourceSupplementaryProvider(collectionView: UICollectionView, elementKind: String, indexPath: IndexPath) -> UICollectionReusableView {
-        let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind,
-                                                                                withReuseIdentifier: SectionHeaderView.reuseIdentifier,
-                                                                                for: indexPath)
-        guard let headerView = supplementaryView as? SectionHeaderView,
-              let section = HomeSection(rawValue: indexPath.section)
+        let supplementaryView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: elementKind,
+            withReuseIdentifier: SectionHeaderView.reuseIdentifier,
+            for: indexPath
+        )
+        guard
+            let headerView = supplementaryView as? SectionHeaderView,
+            let section = HomeSection(rawValue: indexPath.section)
         else {
             return .init(frame: .zero)
         }
