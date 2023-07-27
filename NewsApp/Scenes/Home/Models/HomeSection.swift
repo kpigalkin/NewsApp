@@ -1,3 +1,10 @@
+//
+//  NewsApp
+//  github.com/kpigalkin
+//
+//  Created by Kirill Pigalkin on July 2023.
+//
+
 enum HomeSection: Int {
     case blog
     case news

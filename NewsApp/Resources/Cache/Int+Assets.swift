@@ -1,3 +1,10 @@
+//
+//  NewsApp
+//  github.com/kpigalkin
+//
+//  Created by Kirill Pigalkin on July 2023.
+//
+
 extension Int {
     static let memoryLimit: Int = 1024 * 1024 * 100
 }
