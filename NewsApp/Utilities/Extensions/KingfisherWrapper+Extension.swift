@@ -10,6 +10,10 @@ extension KingfisherWrapper<UIImageView> {
             ),
             mode: .aspectFit
         )
-        setImage(with: url, options: [.processor(resizeTransform), .cacheOriginalImage])
+        setImage(
+            with: url,
+            placeholder: UIImage.placeholder,
+            options: [.processor(resizeTransform), .cacheOriginalImage]
+        )
     }
 }
