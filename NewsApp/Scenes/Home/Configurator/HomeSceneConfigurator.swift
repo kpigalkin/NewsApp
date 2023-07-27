@@ -1,8 +1,8 @@
 import UIKit
 
-struct HomeSceneBuilder: SceneBuildable {
+struct HomeSceneConfigurator: SceneConfigurator {
     
-    static func build() -> UIViewController {
+    static func configure() -> UIViewController {
         let viewController = HomeViewController()
         let interactor = HomeInteractor()
         let presenter = HomePresenter()

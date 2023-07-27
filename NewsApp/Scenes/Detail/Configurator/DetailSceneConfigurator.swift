@@ -1,8 +1,8 @@
 import UIKit
 
-struct DetailSceneBuilder: SceneBuildable {
+struct DetailSceneConfigurator: SceneConfigurator {
     
-    static func build() -> UIViewController {
+    static func configure() -> UIViewController {
         let viewController = DetailViewController()
         let interactor = DetailInteractor()
         let presenter = DetailPresenter()

@@ -21,7 +21,7 @@ final class HomeRouter: HomeDataPassing {
 
 extension HomeRouter: HomeRoutingLogic {
     func routeToDetail() {        
-        guard let destinationVC = DetailSceneBuilder.build() as? DetailViewController,
+        guard let destinationVC = DetailSceneConfigurator.configure() as? DetailViewController,
               var detailsDataStore = destinationVC.router?.dataStore,
               let viewController,
               let dataStore
@@ -36,7 +36,6 @@ extension HomeRouter: HomeRoutingLogic {
 
 private extension HomeRouter {
     func navigateToDetail(source: HomeViewController, destination: DetailViewController) {
-//        destination.sheetPresentationController?.detents = [.medium()]
         source.present(destination, animated: true)
     }
 
