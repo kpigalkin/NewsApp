@@ -1,13 +1,13 @@
 
     // MARK: - StorageError
 
-enum StorageError: Error {
+enum StorageError {
     case notFound
 }
 
     // MARK: - Description
 
-extension StorageError {
+extension StorageError: ResponseError {
     var description: String {
         switch self {
         case .notFound:

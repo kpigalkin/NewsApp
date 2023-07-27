@@ -10,7 +10,7 @@ protocol HomeDisplayLogic: AnyObject {
 
     // MARK: - HomeViewController
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: MainViewController {
     // MARK: - Public
     var interactor: HomeBusinessLogic?
     var router: (HomeRoutingLogic & HomeDataPassing)?
@@ -86,7 +86,7 @@ extension HomeViewController: HomeDisplayLogic {
     // MARK: Display
 
     func displayContent(viewModel: HomeModels.DisplayContent.ViewModel) {
-        throwAlertIfNeeded(description: viewModel.errorDescription)
+        showMessageIfNeeded(viewModel.message)
 
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(viewModel.blogs, toSection: .blog)
@@ -97,7 +97,7 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     func displayMoreNews(viewModel: HomeModels.DisplayMoreNews.ViewModel) {
-        throwAlertIfNeeded(description: viewModel.errorDescription)
+        showMessageIfNeeded(viewModel.message)
 
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(viewModel.news, toSection: .news)
@@ -107,7 +107,7 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     func displayDetail(viewModel: HomeModels.DisplayDetail.ViewModel) {
-        throwAlertIfNeeded(description: viewModel.errorDescription)
+        showMessageIfNeeded(viewModel.message)
         router?.routeToDetail()
     }
     
@@ -165,18 +165,6 @@ extension HomeViewController: UICollectionViewDataSourcePrefetching {
     // MARK: - UserInterface & DiffableDataSource
 
 private extension HomeViewController {
-    
-    func throwAlertIfNeeded(description: String?) {
-        guard let description else { return }
-        
-        let alert = UIAlertController(
-            title: .alertTitle,
-            message: description,
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: .alertText, style: .cancel))
-        present(alert, animated: true)
-    }
     
     func addSubviews() {
         view.addSubview(collectionView)

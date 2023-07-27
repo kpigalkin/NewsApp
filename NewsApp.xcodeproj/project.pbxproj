@@ -14,6 +14,11 @@
 		DB4E3B1F2A61FAB2008D0CA3 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4E3B1E2A61FAB2008D0CA3 /* UILabel+Extension.swift */; };
 		DB6309052A7259C500B71C50 /* UIColor+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6309042A7259C500B71C50 /* UIColor+Assets.swift */; };
 		DB6309082A725BA900B71C50 /* Stirng+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6309072A725BA900B71C50 /* Stirng+Assets.swift */; };
+		DB6ED2C82A72777B00A62F47 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6ED2C72A72777B00A62F47 /* MainViewController.swift */; };
+		DB6ED2CA2A7288C500A62F47 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6ED2C92A7288C500A62F47 /* ResponseError.swift */; };
+		DB6ED2CD2A728BE800A62F47 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6ED2CC2A728BE800A62F47 /* Message.swift */; };
+		DB6ED2D02A72A0FC00A62F47 /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = DB6ED2CF2A72A0FC00A62F47 /* SwiftMessages */; };
+		DB6ED2D92A72BB2200A62F47 /* CustomMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB6ED2D82A72BB2200A62F47 /* CustomMessageView.xib */; };
 		DB9FC60F2A6F20120081210E /* DetialContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9FC60E2A6F20120081210E /* DetialContent.swift */; };
 		DB9FC6112A7024A40081210E /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9FC6102A7024A40081210E /* SectionHeaderView.swift */; };
 		DBAB506E2A5DD4B600DE6866 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB506D2A5DD4B600DE6866 /* AppDelegate.swift */; };
@@ -67,6 +72,10 @@
 		DB4E3B1E2A61FAB2008D0CA3 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		DB6309042A7259C500B71C50 /* UIColor+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Assets.swift"; sourceTree = "<group>"; };
 		DB6309072A725BA900B71C50 /* Stirng+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stirng+Assets.swift"; sourceTree = "<group>"; };
+		DB6ED2C72A72777B00A62F47 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		DB6ED2C92A7288C500A62F47 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		DB6ED2CC2A728BE800A62F47 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		DB6ED2D82A72BB2200A62F47 /* CustomMessageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomMessageView.xib; sourceTree = "<group>"; };
 		DB9FC60E2A6F20120081210E /* DetialContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetialContent.swift; sourceTree = "<group>"; };
 		DB9FC6102A7024A40081210E /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		DBAB506A2A5DD4B600DE6866 /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +127,7 @@
 			files = (
 				DBD1038F2A657EFF00077781 /* RealmSwift in Frameworks */,
 				DBD1038D2A657EFF00077781 /* Realm in Frameworks */,
+				DB6ED2D02A72A0FC00A62F47 /* SwiftMessages in Frameworks */,
 				DBAB50B52A600A2F00DE6866 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +180,33 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
+		DB6ED2C62A72754600A62F47 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				DB6ED2CB2A728B9B00A62F47 /* Models */,
+				DB6ED2D12A72A29900A62F47 /* View */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		DB6ED2CB2A728B9B00A62F47 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DB6ED2C92A7288C500A62F47 /* ResponseError.swift */,
+				DB6ED2CC2A728BE800A62F47 /* Message.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DB6ED2D12A72A29900A62F47 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DB6ED2C72A72777B00A62F47 /* MainViewController.swift */,
+				DB6ED2D82A72BB2200A62F47 /* CustomMessageView.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		DBAB50612A5DD4B600DE6866 = {
 			isa = PBXGroup;
 			children = (
@@ -218,8 +255,9 @@
 		DBAB50822A5DE3C700DE6866 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				DBAB50BB2A60563E00DE6866 /* Detail */,
+				DB6ED2C62A72754600A62F47 /* Main */,
 				DBAB50832A5DE3CE00DE6866 /* Home */,
+				DBAB50BB2A60563E00DE6866 /* Detail */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -424,6 +462,7 @@
 				DBAB50B42A600A2F00DE6866 /* Kingfisher */,
 				DBD1038C2A657EFF00077781 /* Realm */,
 				DBD1038E2A657EFF00077781 /* RealmSwift */,
+				DB6ED2CF2A72A0FC00A62F47 /* SwiftMessages */,
 			);
 			productName = NewsApp;
 			productReference = DBAB506A2A5DD4B600DE6866 /* NewsApp.app */;
@@ -456,6 +495,7 @@
 			packageReferences = (
 				DBAB50B32A600A2F00DE6866 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				DBD1038B2A657EFF00077781 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				DB6ED2CE2A72A0FC00A62F47 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 			);
 			productRefGroup = DBAB506B2A5DD4B600DE6866 /* Products */;
 			projectDirPath = "";
@@ -471,6 +511,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB6ED2D92A72BB2200A62F47 /* CustomMessageView.xib in Resources */,
 				DBAB507A2A5DD4B700DE6866 /* LaunchScreen.storyboard in Resources */,
 				DBAB50772A5DD4B700DE6866 /* Assets.xcassets in Resources */,
 			);
@@ -483,7 +524,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB6ED2CD2A728BE800A62F47 /* Message.swift in Sources */,
 				DBD103862A6558ED00077781 /* News.swift in Sources */,
+				DB6ED2C82A72777B00A62F47 /* MainViewController.swift in Sources */,
 				DBDE6BE22A675F31000FC287 /* UIView+Extension.swift in Sources */,
 				DBAB50C72A6056B800DE6866 /* DetailModels.swift in Sources */,
 				DBAB50CB2A6056DF00DE6866 /* DetailSceneConfigurator.swift in Sources */,
@@ -495,6 +538,7 @@
 				DBE2FAC32A6F0DE3005F8AFB /* SceneConfigurator.swift in Sources */,
 				DBE2FAB22A6E613A005F8AFB /* RealmService.swift in Sources */,
 				DBE2FABE2A6E9317005F8AFB /* Blog.swift in Sources */,
+				DB6ED2CA2A7288C500A62F47 /* ResponseError.swift in Sources */,
 				DBAB50C82A6056B800DE6866 /* DetailViewController.swift in Sources */,
 				DBAB508F2A5DE3FC00DE6866 /* HomeInteractor.swift in Sources */,
 				DBAB50C62A6056B800DE6866 /* DetailRouter.swift in Sources */,
@@ -737,6 +781,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DB6ED2CE2A72A0FC00A62F47 /* XCRemoteSwiftPackageReference "SwiftMessages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftKickMobile/SwiftMessages";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		DBAB50B32A600A2F00DE6866 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -756,6 +808,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DB6ED2CF2A72A0FC00A62F47 /* SwiftMessages */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DB6ED2CE2A72A0FC00A62F47 /* XCRemoteSwiftPackageReference "SwiftMessages" */;
+			productName = SwiftMessages;
+		};
 		DBAB50B42A600A2F00DE6866 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DBAB50B32A600A2F00DE6866 /* XCRemoteSwiftPackageReference "Kingfisher" */;

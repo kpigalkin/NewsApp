@@ -2,7 +2,7 @@ import Foundation
 
     // MARK: - RequestError
 
-enum RequestError: Error {
+enum RequestError {
     case invalidURL
     case decode
     case offline
@@ -17,9 +17,9 @@ enum RequestError: Error {
     case other(Int)
 }
 
-extension RequestError {
-    
-    // MARK: - Description
+    // MARK: - CustomError
+
+extension RequestError: ResponseError {
     
     var description: String {
         switch self {
@@ -28,7 +28,7 @@ extension RequestError {
         case .decode:
             return "Decode Error"
         case .offline:
-            return "Offline idk"
+            return "Offline"
         case .badRequest:
             return "Bad Request"
         case .unauthorized:
@@ -49,9 +49,11 @@ extension RequestError {
             return "Error with status code: \(statusCode)"
         }
     }
-    
+}
+
     // MARK: - Status Code Handling
-    
+ 
+extension RequestError {
     static func handleResponseError(statusCode: Int) -> RequestError {
         switch statusCode {
         case 400:

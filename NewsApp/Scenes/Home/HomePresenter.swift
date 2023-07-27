@@ -22,25 +22,25 @@ extension HomePresenter: HomePresentationLogic {
         viewController?.displayContent(viewModel: .init(
             news: convertNews(response.news),
             blogs: convertBlogs(response.blogs),
-            errorDescription: response.errorDescription
+            message: convertErrorToMessage(response.error, success: response.success)
         ))
     }
     
     func presentMoreNews(response: HomeModels.DisplayMoreNews.Response) {
         viewController?.displayMoreNews(viewModel: .init(
             news: convertNews(response.news),
-            errorDescription: response.errorDescription
+            message: convertErrorToMessage(response.error, success: response.success)
         ))
     }
     
     func presentDetail(response: HomeModels.DisplayDetail.Response) {
         viewController?.displayDetail(viewModel: .init(
-            errorDescription: response.errorDescription
+            message: convertErrorToMessage(response.error, success: response.success)
         ))
     }
 }
 
-    // MARK: - Convert
+    // MARK: - Private
 
 private extension HomePresenter {
     
@@ -72,6 +72,28 @@ private extension HomePresenter {
             from: SpaceFlightNewsEndpoint.dateFormats,
             to: DateFormatter.toFormat,
             date: stringDate
+        )
+    }
+    
+    func convertErrorToMessage(_ error: ResponseError?, success: Bool) -> Message {
+        guard let error else {
+            return .init(result: .success)
+        }
+
+        guard success else {
+            return .init(
+                result: .completeError,
+                image: .remove,
+                errorTitle: error.description
+            )
+        }
+        
+        let explanation: String = error is RequestError ? .storageSuccess : .requestSuccess
+        
+        return .init(
+            result: .handeledError,
+            image: .checkmark,
+            errorTitle: error.description + ". " + explanation
         )
     }
 }

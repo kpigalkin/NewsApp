@@ -47,7 +47,8 @@ extension HomeInteractor: HomeBusinessLogic {
                 presenter?.presentContent(response: .init(
                     blogs: blogs.results,
                     news: news.results,
-                    errorDescription: nil
+                    success: true,
+                    error: nil
                 ))
 
             } catch let error as RequestError {
@@ -55,7 +56,8 @@ extension HomeInteractor: HomeBusinessLogic {
                 presenter?.presentContent(response: .init(
                     blogs: storageWorker?.getBlogs(),
                     news: storageWorker?.getNews(),
-                    errorDescription: error.description
+                    success: true,
+                    error: error
                 ))
                 
             } catch let error as StorageError {
@@ -63,7 +65,8 @@ extension HomeInteractor: HomeBusinessLogic {
                 presenter?.presentContent(response: .init(
                     blogs: nil,
                     news: nil,
-                    errorDescription: error.description
+                    success: false,
+                    error: error
                 ))
             }
         }
@@ -72,54 +75,63 @@ extension HomeInteractor: HomeBusinessLogic {
     @MainActor
     func fetchMoreNews(request: HomeModels.DisplayMoreNews.Request) {
         Task {
-            guard let news = try await networkWorker?.getNews(offset: request.offset) else {
-                return
+            do {
+                
+                guard let news = try await networkWorker?.getNews(offset: request.offset) else {
+                    return
+                }
+                
+                defer {
+                    storageWorker?.saveNews(news.results)
+                }
+                
+                presenter?.presentMoreNews(response: .init(
+                    news: news.results,
+                    success: true,
+                    error: nil
+                ))
+                
+            } catch let error as RequestError {
+                
+                presenter?.presentMoreNews(response: .init(
+                    news: nil,
+                    success: false,
+                    error: error
+                ))
             }
-            
-            defer {
-                storageWorker?.saveNews(news.results)
-            }
-            
-            let response = HomeModels.DisplayMoreNews.Response(news: news.results, errorDescription: nil)
-            presenter?.presentMoreNews(response: response)
         }
     }
     
     @MainActor
     func fetchSelectedDetail(request: HomeModels.DisplayDetail.Request) {
-        do {
-            switch request.section {
-            case .blog:
-                detailContent = .init(
-                    news: nil,
-                    blog: try storageWorker?.getBlogDetail(with: request.id)
-                )
-            case .news:
-                detailContent = .init(
-                    news: try storageWorker?.getNewsDetail(with: request.id),
-                    blog: nil
-                )
-            }
-            presenter?.presentDetail(response: .init(errorDescription: nil))
-            
-        } catch let error as StorageError {
-            
-            Task {
-                do {
-                    switch request.section {
-                    case .blog:
-                        detailContent?.blog = try await networkWorker?.getBlogDetail(id: request.id)
-                    case .news:
-                        detailContent?.news = try await networkWorker?.getNewsDetail(id: request.id)
-                    }
-                    presenter?.presentDetail(response: .init(errorDescription: error.description))
-                } catch let error as RequestError {
-                    presenter?.presentDetail(response: .init(errorDescription: error.description))
+        Task {
+            do {
+                
+                switch request.section {
+                case .blog:
+                    let blog = try storageWorker?.getBlogDetail(with: request.id)
+                    detailContent = .init(blog: blog)
+                case .news:
+                    let news = try storageWorker?.getNewsDetail(with: request.id)
+                    detailContent = .init(news: news)
                 }
+                presenter?.presentDetail(response: .init(success: true, error: nil))
+                
+            } catch let error as StorageError {
+                
+                switch request.section {
+                case .blog:
+                    let blog = try await networkWorker?.getBlogDetail(id: request.id)
+                    detailContent = .init(blog: blog)
+                case .news:
+                    let news = try await networkWorker?.getNewsDetail(id: request.id)
+                    detailContent = .init(news: news)
+                }
+                presenter?.presentDetail(response: .init(success: true, error: error))
+                
+            } catch let error as RequestError {
+                presenter?.presentDetail(response: .init(success: false, error: error))
             }
-            
-        } catch let error {
-            presenter?.presentDetail(response: .init(errorDescription: error.localizedDescription))
         }
     }
 }

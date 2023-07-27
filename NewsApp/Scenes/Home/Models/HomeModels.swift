@@ -10,11 +10,12 @@ enum HomeModels {
         }
         struct Response {
             let news: [News]?
-            let errorDescription: String?
+            let success: Bool
+            let error: ResponseError?
         }
         struct ViewModel {
             let news: [HomeCollectionItem]
-            let errorDescription: String?
+            let message: Message
         }
     }
     
@@ -25,12 +26,13 @@ enum HomeModels {
         struct Response {
             let blogs: [Blog]?
             let news: [News]?
-            let errorDescription: String?
+            let success: Bool
+            let error: ResponseError?
         }
         struct ViewModel {
             let news: [HomeCollectionItem]
             let blogs: [HomeCollectionItem]
-            let errorDescription: String?
+            let message: Message
         }
     }
     
@@ -42,10 +44,11 @@ enum HomeModels {
             let section: HomeSection
         }
         struct Response {
-            let errorDescription: String?
+            let success: Bool
+            let error: ResponseError?
         }
         struct ViewModel {
-            let errorDescription: String?
+            let message: Message
         }
     }
 }

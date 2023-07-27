@@ -40,7 +40,7 @@ final class NewsContentView: UIView, UIContentView {
     
     private var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray4
+        view.backgroundColor = .designSystemGray
         view.layer.cornerRadius = Constants.cornerRadius
         return view
     }()

@@ -36,7 +36,7 @@ extension SectionHeaderView {
 
 private extension SectionHeaderView {
     func setupView() {
-        backgroundColor = .designSystemGray
+        backgroundColor = .designSystemDarkGray
         layer.cornerRadius = Constants.cornerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }
