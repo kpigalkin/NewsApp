@@ -14,7 +14,7 @@ final class SectionHeaderView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setupView()
         addSubviews()
         configureConstraints()
     }
@@ -35,8 +35,8 @@ extension SectionHeaderView {
     // MARK: - User Interface
 
 private extension SectionHeaderView {
-    func setup() {
-        backgroundColor = .systemGray5
+    func setupView() {
+        backgroundColor = .designSystemGray
         layer.cornerRadius = Constants.cornerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }

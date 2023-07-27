@@ -7,9 +7,9 @@ extension HomeSection {
     var name: String {
         switch self {
         case .blog:
-            return "Latests blogs"
+            return String.blogsSectionName
         case .news:
-            return "News"
+            return String.newsSectionName
         }
     }
 }

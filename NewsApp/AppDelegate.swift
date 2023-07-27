@@ -11,7 +11,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     func setupCache() {
-        ImageCache.default.memoryStorage.config.totalCostLimit = AppConstants.Cache.memoryLimit
-        ImageCache.default.diskStorage.config.sizeLimit = AppConstants.Cache.diskLimit
+        ImageCache.default.memoryStorage.config.totalCostLimit = .memoryLimit
+        ImageCache.default.diskStorage.config.sizeLimit = .diskLimit
     }
 }

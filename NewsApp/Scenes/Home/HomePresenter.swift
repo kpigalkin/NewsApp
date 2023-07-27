@@ -70,7 +70,7 @@ private extension HomePresenter {
     func convertDate(_ stringDate: String) -> String  {
         return DateFormatter().convertMultipleFormatDate(
             from: SpaceFlightNewsEndpoint.dateFormats,
-            to: AppConstants.DateFormat.toFormat,
+            to: DateFormatter.toFormat,
             date: stringDate
         )
     }

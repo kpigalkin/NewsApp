@@ -18,9 +18,6 @@ final class HomeViewController: UIViewController {
     // MARK: - Private
     private enum Constants {
         static let cellReuseIdentifier = String(describing: HomeViewController.self)
-        static let alertTitle = "Error occurs"
-        static let alertText = "Got it"
-        static let refreshText = "Updating"
         static let prefetchRange: Int = 2
     }
     
@@ -52,13 +49,13 @@ final class HomeViewController: UIViewController {
         view.delegate = self
         view.prefetchDataSource = self
         view.alwaysBounceVertical = true
-        view.backgroundColor = .clear
+        view.backgroundColor = .designSystemClear
         return view
     }()
     
     private lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
-        control.tintColor = .white
+        control.tintColor = .designSystemWhite
         control.addAction(
             UIAction(handler: { [weak self] _ in
                 guard let self else { return }
@@ -66,7 +63,7 @@ final class HomeViewController: UIViewController {
             }),
             for: .valueChanged
         )
-        control.attributedTitle = NSMutableAttributedString(string: Constants.refreshText)
+        control.attributedTitle = NSMutableAttributedString(string: .refreshText)
         return control
     }()
     
@@ -74,7 +71,7 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .designSystemDarkGray
         createSections()
         addSubviews()
         configureConstraints()
@@ -172,11 +169,11 @@ private extension HomeViewController {
         guard let description else { return }
         
         let alert = UIAlertController(
-            title: Constants.alertTitle,
+            title: .alertTitle,
             message: description,
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: Constants.alertText, style: .cancel))
+        alert.addAction(UIAlertAction(title: .alertText, style: .cancel))
         present(alert, animated: true)
     }
     

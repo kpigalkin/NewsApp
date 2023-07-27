@@ -60,8 +60,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sheetPresentationController?.detents = [.medium(), .large()]
-        view.backgroundColor = .systemGray5
+        setupView()
         addSubviews()
         configureConstraints()
         interactor?.fetchDetail(request: .init())
@@ -89,6 +88,10 @@ extension DetailViewController: DetailDisplayLogic {
     // MARK: - User Interface
 
 private extension DetailViewController {
+    func setupView() {
+        sheetPresentationController?.detents = [.medium(), .large()]
+        view.backgroundColor = .designSystemDarkGray
+    }
     
     func addSubviews() {
         view.addSubview(scrollView)
