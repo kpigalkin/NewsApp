@@ -1,9 +1,24 @@
+//
+//  NewsApp
+//  github.com/kpigalkin
+//
+//  Created by Kirill Pigalkin on July 2023.
+//
+
 import UIKit
+import Kingfisher
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        setupCache()
         return true
+    }
+}
+
+private extension AppDelegate {
+    func setupCache() {
+        ImageCache.default.memoryStorage.config.totalCostLimit = .memoryLimit
+        ImageCache.default.diskStorage.config.sizeLimit = .diskLimit
     }
 }

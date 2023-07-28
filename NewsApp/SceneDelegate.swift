@@ -1,12 +1,20 @@
-import UIKit
+//
+//  NewsApp
+//  github.com/kpigalkin
+//
+//  Created by Kirill Pigalkin on July 2023.
+//
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+import UIKit
+import RealmSwift
+
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = ViewController()
+        window?.rootViewController = HomeSceneConfigurator.configure()
         window?.makeKeyAndVisible()
     }
 }
