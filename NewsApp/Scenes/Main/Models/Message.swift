@@ -7,11 +7,15 @@
 
 import UIKit
 
+    // MARK: - Result
+
 enum Result {
     case success
     case handeledError
     case completeError
 }
+
+    // MARK: - Message
 
 struct Message {
     let result: Result

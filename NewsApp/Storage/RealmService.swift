@@ -8,10 +8,13 @@
 import RealmSwift
 
 final class RealmService {
+    
     // MARK: - Static
+    
     static let shared = RealmService()
     
     // MARK: - Private
+    
     private var realm = try! Realm()
     private init() {}
 }

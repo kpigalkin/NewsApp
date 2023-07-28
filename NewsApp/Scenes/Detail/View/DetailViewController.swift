@@ -20,10 +20,12 @@ final class DetailViewController: UIViewController {
     static let cellReuseIdentifier = String(describing: DetailViewController.self)
 
     // MARK: - Public
+    
     var interactor: DetailBusinessLogic?
     var router: (DetailRoutingLogic & DetailDataPassing)?
     
     // MARK: - Private
+    
     private enum Constants {
         static let animationDuration: CGFloat = 0.5
         static let aspectRatio: CGFloat = 10 / 16
@@ -97,7 +99,7 @@ extension DetailViewController: DetailDisplayLogic {
 private extension DetailViewController {
     func setupView() {
         sheetPresentationController?.detents = [.medium(), .large()]
-        view.backgroundColor = .designSystemDarkGray
+        view.backgroundColor = .DesignSystem.darkGray
     }
     
     func addSubviews() {

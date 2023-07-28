@@ -9,7 +9,9 @@ import UIKit
 
 final class SectionHeaderView: UICollectionReusableView {
     static let reuseIdentifier = String(describing: SectionHeaderView.self)
+    
     // MARK: - Private
+    
     private enum Constants {
         static let leadingSpacing: CGFloat = 28
         static let bottomSpacing: CGFloat = 11
@@ -43,7 +45,7 @@ extension SectionHeaderView {
 
 private extension SectionHeaderView {
     func setupView() {
-        backgroundColor = .designSystemDarkGray
+        backgroundColor = .DesignSystem.darkGray
         layer.cornerRadius = Constants.cornerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }

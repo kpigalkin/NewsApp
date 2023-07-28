@@ -12,6 +12,7 @@ import UIKit
 struct HomeCollectionViewLayoutFactory {
     
     // MARK: - Private
+    
     private enum Constants {
         static let newsEstimatedHeight: CGFloat = 500
         static let blogEstimatedHeight: CGFloat = 80

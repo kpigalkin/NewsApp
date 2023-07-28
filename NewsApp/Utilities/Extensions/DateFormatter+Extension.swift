@@ -8,10 +8,13 @@
 import Foundation
 
 extension DateFormatter {
-    func convertMultipleFormatDate(from fromFormats: [String],
-                                   to toFormat: String,
-                                   date dateString: String,
-                                   localeID: String = "en_US") -> String {
+    func convertMultipleFormatDate(
+        from fromFormats: [String],
+        to toFormat: String,
+        date dateString: String,
+        localeID: String = "en_US"
+    ) -> String {
+        
         var date: Date?
         fromFormats.forEach {
             dateFormat = $0

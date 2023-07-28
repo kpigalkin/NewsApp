@@ -18,11 +18,14 @@ protocol HomeDisplayLogic: AnyObject {
     // MARK: - HomeViewController
 
 final class HomeViewController: MainViewController {
+    
     // MARK: - Public
+    
     var interactor: HomeBusinessLogic?
     var router: (HomeRoutingLogic & HomeDataPassing)?
     
     // MARK: - Private
+    
     private enum Constants {
         static let cellReuseIdentifier = String(describing: HomeViewController.self)
         static let prefetchRange: Int = 2
@@ -56,14 +59,14 @@ final class HomeViewController: MainViewController {
         view.delegate = self
         view.prefetchDataSource = self
         view.alwaysBounceVertical = true
-        view.backgroundColor = .designSystemClear
+        view.backgroundColor = .DesignSystem.clear
         view.showsVerticalScrollIndicator = false
         return view
     }()
     
     private lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
-        control.tintColor = .designSystemWhite
+        control.tintColor = .DesignSystem.white
         control.addAction(
             UIAction(handler: { [weak self] _ in
                 guard let self else { return }
@@ -79,11 +82,15 @@ final class HomeViewController: MainViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .designSystemDarkGray
+        setupView()
         createSections()
         addSubviews()
         configureConstraints()
         requestToFetchContent()
+    }
+    
+    func setupView() {
+        view.backgroundColor = .DesignSystem.darkGray
     }
 }
 
@@ -211,8 +218,8 @@ private extension HomeViewController {
             }
         }
         
-        dataSource.supplementaryViewProvider = { [unowned self] collectionView, elementKind, indexPath in
-            return self.makeDataSourceSupplementaryProvider(collectionView: collectionView, elementKind: elementKind, indexPath: indexPath)
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, elementKind, indexPath in
+            return self?.makeDataSourceSupplementaryProvider(collectionView: collectionView, elementKind: elementKind, indexPath: indexPath)
         }
         return dataSource
     }

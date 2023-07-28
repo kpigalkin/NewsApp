@@ -30,6 +30,7 @@ struct BlogContentConfiguration: UIContentConfiguration {
 final class BlogContentView: UIView, UIContentView {
     
     // MARK: - Public
+    
     var configuration: UIContentConfiguration {
         didSet {
             configure()
@@ -37,6 +38,7 @@ final class BlogContentView: UIView, UIContentView {
     }
     
     // MARK: - Private
+    
     private enum Constants {
         static let bigSpacing: CGFloat = 25
         static let spacing: CGFloat = 12
@@ -48,7 +50,7 @@ final class BlogContentView: UIView, UIContentView {
     
     private var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .designSystemGray
+        view.backgroundColor = .DesignSystem.gray
         view.layer.cornerRadius = Constants.cornerRadius
         return view
     }()

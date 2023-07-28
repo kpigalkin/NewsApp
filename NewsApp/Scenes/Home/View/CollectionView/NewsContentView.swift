@@ -30,6 +30,7 @@ struct NewsContentConfiguration: UIContentConfiguration {
 final class NewsContentView: UIView, UIContentView {
     
     // MARK: - Public
+    
     var configuration: UIContentConfiguration {
         didSet {
             configure()
@@ -37,6 +38,7 @@ final class NewsContentView: UIView, UIContentView {
     }
     
     // MARK: - Private
+    
     private enum Constants {
         static let aspectRatio: CGFloat = 11 / 16
         static let summaryLinesCount: Int = 2
@@ -47,7 +49,7 @@ final class NewsContentView: UIView, UIContentView {
     
     private var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .designSystemGray
+        view.backgroundColor = .DesignSystem.gray
         view.layer.cornerRadius = Constants.cornerRadius
         return view
     }()
