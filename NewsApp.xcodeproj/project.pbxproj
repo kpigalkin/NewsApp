@@ -13,6 +13,7 @@
 		DB457DAF2A6B1CCF00C36E0E /* HomeNetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB457DAE2A6B1CCF00C36E0E /* HomeNetworkWorker.swift */; };
 		DB4E3B1F2A61FAB2008D0CA3 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4E3B1E2A61FAB2008D0CA3 /* UILabel+Extension.swift */; };
 		DB5408CB2A73E621009FCC26 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = DB5408CA2A73E621009FCC26 /* Reachability */; };
+		DB5408D12A73F84D009FCC26 /* kpiglakin-NewsApp.gif in Resources */ = {isa = PBXBuildFile; fileRef = DB5408D02A73F84D009FCC26 /* kpiglakin-NewsApp.gif */; };
 		DB6309052A7259C500B71C50 /* UIColor+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6309042A7259C500B71C50 /* UIColor+Assets.swift */; };
 		DB6309082A725BA900B71C50 /* Stirng+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6309072A725BA900B71C50 /* Stirng+Assets.swift */; };
 		DB6ED2C82A72777B00A62F47 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6ED2C72A72777B00A62F47 /* MainViewController.swift */; };
@@ -71,6 +72,7 @@
 		DB457DAA2A6B0D4B00C36E0E /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		DB457DAE2A6B1CCF00C36E0E /* HomeNetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNetworkWorker.swift; sourceTree = "<group>"; };
 		DB4E3B1E2A61FAB2008D0CA3 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		DB5408D02A73F84D009FCC26 /* kpiglakin-NewsApp.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "kpiglakin-NewsApp.gif"; sourceTree = "<group>"; };
 		DB6309042A7259C500B71C50 /* UIColor+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Assets.swift"; sourceTree = "<group>"; };
 		DB6309072A725BA900B71C50 /* Stirng+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stirng+Assets.swift"; sourceTree = "<group>"; };
 		DB6ED2C72A72777B00A62F47 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +156,14 @@
 				DBD103912A65A99000077781 /* RequestError.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		DB5408CF2A73F819009FCC26 /* GIF */ = {
+			isa = PBXGroup;
+			children = (
+				DB5408D02A73F84D009FCC26 /* kpiglakin-NewsApp.gif */,
+			);
+			path = GIF;
 			sourceTree = "<group>";
 		};
 		DB6309032A72598200B71C50 /* Colors */ = {
@@ -243,6 +253,7 @@
 		DBAB50812A5DE3B800DE6866 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DB5408CF2A73F819009FCC26 /* GIF */,
 				DBAE4C822A725EC100E622BD /* Image */,
 				DBAE4C7F2A725E7800E622BD /* DateFormat */,
 				DBAE4C7C2A725E0700E622BD /* Cache */,
@@ -517,6 +528,7 @@
 			files = (
 				DB6ED2D92A72BB2200A62F47 /* CustomMessageView.xib in Resources */,
 				DBAB507A2A5DD4B700DE6866 /* LaunchScreen.storyboard in Resources */,
+				DB5408D12A73F84D009FCC26 /* kpiglakin-NewsApp.gif in Resources */,
 				DBAB50772A5DD4B700DE6866 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
