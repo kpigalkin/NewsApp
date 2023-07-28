@@ -57,6 +57,7 @@ final class HomeViewController: MainViewController {
         view.prefetchDataSource = self
         view.alwaysBounceVertical = true
         view.backgroundColor = .designSystemClear
+        view.showsVerticalScrollIndicator = false
         return view
     }()
     

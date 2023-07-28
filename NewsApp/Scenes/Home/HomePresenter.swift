@@ -53,24 +53,32 @@ private extension HomePresenter {
     
     func convertNews(_ items: [News]?) -> [HomeCollectionItem] {
         guard let items else { return [] }
-        return items.map {
-            HomeCollectionItem(content: .news(configuration: .init(
-                id: $0.id,
-                imageURL: URL(string: $0.imageURL),
-                title: $0.title,
-                date: convertDate($0.date)
-            )))
-        }
+        return items
+            .sorted {
+                $0.date > $1.date
+            }
+            .map {
+                HomeCollectionItem(content: .news(configuration: .init(
+                    id: $0.id,
+                    imageURL: URL(string: $0.imageURL),
+                    title: $0.title,
+                    date: convertDate($0.date)
+                )))
+            }
     }
     
     func convertBlogs(_ items: [Blog]?) -> [HomeCollectionItem] {
         guard let items else { return [] }
-        return items.map {
-            HomeCollectionItem(content: .blog(configuration: .init(
-                id: $0.id,
-                imageURL: URL(string: $0.imageURL),
-                title: $0.title
-            )))
+        return items
+            .sorted {
+                $0.date > $1.date
+            }
+            .map {
+                HomeCollectionItem(content: .blog(configuration: .init(
+                    id: $0.id,
+                    imageURL: URL(string: $0.imageURL),
+                    title: $0.title
+                )))
         }
     }
     
