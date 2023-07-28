@@ -101,7 +101,7 @@ extension HomeViewController: HomeDisplayLogic {
     // MARK: Display
 
     func displayContent(viewModel: HomeModels.DisplayContent.ViewModel) {
-        showMessageIfNeeded(viewModel.message)
+        messageIfNeeded(viewModel.message)
 
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(viewModel.blogs, toSection: .blog)
@@ -112,7 +112,7 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     func displayMoreNews(viewModel: HomeModels.DisplayMoreNews.ViewModel) {
-        showMessageIfNeeded(viewModel.message)
+        messageIfNeeded(viewModel.message)
 
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(viewModel.news, toSection: .news)
@@ -122,7 +122,7 @@ extension HomeViewController: HomeDisplayLogic {
     }
     
     func displayDetail(viewModel: HomeModels.DisplayDetail.ViewModel) {
-        showMessageIfNeeded(viewModel.message)
+        messageIfNeeded(viewModel.message)
         router?.routeToDetail()
     }
     

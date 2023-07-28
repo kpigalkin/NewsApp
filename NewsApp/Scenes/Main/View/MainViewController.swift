@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
     
     // MARK: - Public
     
-    func showMessageIfNeeded(_ message: Message) {
+    func messageIfNeeded(_ message: Message) {
         guard
             message.result != .success,
             let title = message.errorTitle,

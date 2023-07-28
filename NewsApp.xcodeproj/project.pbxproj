@@ -12,6 +12,7 @@
 		DB457DAB2A6B0D4B00C36E0E /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB457DAA2A6B0D4B00C36E0E /* HTTPClient.swift */; };
 		DB457DAF2A6B1CCF00C36E0E /* HomeNetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB457DAE2A6B1CCF00C36E0E /* HomeNetworkWorker.swift */; };
 		DB4E3B1F2A61FAB2008D0CA3 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4E3B1E2A61FAB2008D0CA3 /* UILabel+Extension.swift */; };
+		DB5408CB2A73E621009FCC26 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = DB5408CA2A73E621009FCC26 /* Reachability */; };
 		DB6309052A7259C500B71C50 /* UIColor+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6309042A7259C500B71C50 /* UIColor+Assets.swift */; };
 		DB6309082A725BA900B71C50 /* Stirng+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6309072A725BA900B71C50 /* Stirng+Assets.swift */; };
 		DB6ED2C82A72777B00A62F47 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6ED2C72A72777B00A62F47 /* MainViewController.swift */; };
@@ -127,6 +128,7 @@
 			files = (
 				DBD1038F2A657EFF00077781 /* RealmSwift in Frameworks */,
 				DBD1038D2A657EFF00077781 /* Realm in Frameworks */,
+				DB5408CB2A73E621009FCC26 /* Reachability in Frameworks */,
 				DB6ED2D02A72A0FC00A62F47 /* SwiftMessages in Frameworks */,
 				DBAB50B52A600A2F00DE6866 /* Kingfisher in Frameworks */,
 			);
@@ -463,6 +465,7 @@
 				DBD1038C2A657EFF00077781 /* Realm */,
 				DBD1038E2A657EFF00077781 /* RealmSwift */,
 				DB6ED2CF2A72A0FC00A62F47 /* SwiftMessages */,
+				DB5408CA2A73E621009FCC26 /* Reachability */,
 			);
 			productName = NewsApp;
 			productReference = DBAB506A2A5DD4B600DE6866 /* NewsApp.app */;
@@ -496,6 +499,7 @@
 				DBAB50B32A600A2F00DE6866 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				DBD1038B2A657EFF00077781 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				DB6ED2CE2A72A0FC00A62F47 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
+				DB5408C92A73E621009FCC26 /* XCRemoteSwiftPackageReference "Reachability" */,
 			);
 			productRefGroup = DBAB506B2A5DD4B600DE6866 /* Products */;
 			projectDirPath = "";
@@ -715,8 +719,7 @@
 				INFOPLIST_FILE = NewsApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -742,8 +745,7 @@
 				INFOPLIST_FILE = NewsApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -781,6 +783,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DB5408C92A73E621009FCC26 /* XCRemoteSwiftPackageReference "Reachability" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		DB6ED2CE2A72A0FC00A62F47 /* XCRemoteSwiftPackageReference "SwiftMessages" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftKickMobile/SwiftMessages";
@@ -808,6 +818,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DB5408CA2A73E621009FCC26 /* Reachability */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DB5408C92A73E621009FCC26 /* XCRemoteSwiftPackageReference "Reachability" */;
+			productName = Reachability;
+		};
 		DB6ED2CF2A72A0FC00A62F47 /* SwiftMessages */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DB6ED2CE2A72A0FC00A62F47 /* XCRemoteSwiftPackageReference "SwiftMessages" */;

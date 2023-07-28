@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Reachability
 
     // MARK: - Protocols
 
@@ -25,6 +26,9 @@ final class HomeNetworkWorker {}
 extension HomeNetworkWorker: HomeNetworkWorkingLogic, HTTPClient {
     
     func getNews(offset: Int) async throws -> NewsItems {
+        guard connectionReachability else {
+            throw RequestError.offline
+        }
         let endpoint = SpaceFlightNewsEndpoint.news(offset: offset)
         let request = try makeRequest(with: endpoint)
         let data = try await execute(request: request)
@@ -32,6 +36,9 @@ extension HomeNetworkWorker: HomeNetworkWorkingLogic, HTTPClient {
     }
     
     func getBlogs() async throws -> BlogItems {
+        guard connectionReachability else {
+            throw RequestError.offline
+        }
         let endpoint = SpaceFlightNewsEndpoint.blogs
         let request = try makeRequest(with: endpoint)
         let data = try await execute(request: request)
@@ -39,6 +46,9 @@ extension HomeNetworkWorker: HomeNetworkWorkingLogic, HTTPClient {
     }
     
     func getBlogDetail(id: Int) async throws -> Blog {
+        guard connectionReachability else {
+            throw RequestError.offline
+        }
         let endpoint = SpaceFlightNewsEndpoint.blogDetail(id: id)
         let request = try makeRequest(with: endpoint)
         let data = try await execute(request: request)
@@ -46,6 +56,9 @@ extension HomeNetworkWorker: HomeNetworkWorkingLogic, HTTPClient {
     }
     
     func getNewsDetail(id: Int) async throws -> News {
+        guard connectionReachability else {
+            throw RequestError.offline
+        }
         let endpoint = SpaceFlightNewsEndpoint.newsDetail(id: id)
         let request = try makeRequest(with: endpoint)
         let data = try await execute(request: request)
@@ -56,6 +69,13 @@ extension HomeNetworkWorker: HomeNetworkWorkingLogic, HTTPClient {
     // MARK: - Decode & Request
 
 private extension HomeNetworkWorker {
+    var connectionReachability: Bool {
+        guard let reachability = try? Reachability() else {
+            return false
+        }
+        return reachability.connection != .unavailable
+    }
+    
     func makeRequest(with endpoint: Endpoint) throws -> URLRequest {
         var components = URLComponents()
         components.scheme = endpoint.scheme
